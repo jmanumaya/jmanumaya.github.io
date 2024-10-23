@@ -6,21 +6,21 @@
 	<title>Formulario Receta</title>
 </head>
 <body>
-<form action="https://lm.ciclo.iesnervion.es/" meyhod="post">
+<form action="https://lm.ciclo.iesnervion.es/" method="post">
 	<fieldset>
 		<legend>Datos Receta</legend>
 		<label for="nombre">Nombre: </label>
 			<input type="text" name="nombre" id="nombre"><br><label for="correo">Correo: </label>
-			<input type="email" name="correo" id="email" placeholder="correo@ejemplo.com"><br>
+			<input type="email" name="correo" id="correo" placeholder="correo@ejemplo.com"><br>
 		<label>Momento de la Comida</label>
-			<input type="checkbox" name=desayuno">desayuno
-			<input type="checkbox" name="almuerzo">almuerzo
-			<input type="checkbox" name="merienda">merienda
-			<input type="checkbox" name="cena">cena
-			<input type="checkbox" name="postre">postre
+			<input type="checkbox" name=momento[]">desayuno
+			<input type="checkbox" name="momento[]">almuerzo
+			<input type="checkbox" name="momento[]">merienda
+			<input type="checkbox" name="momento[]">cena
+			<input type="checkbox" name="momento[]">postre
 		<br>
 		<label for="ingredientes">Ingredientes: </label>
-        <select name="ingredientes" id="ingredientes">
+        <select name="ingredientes[]" id="ingredientes" multiple>
             <optgroup label="Carnes">
                 <option>Ternera</option>
                 <option>Pollo</option>
