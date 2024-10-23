@@ -6,13 +6,50 @@
 	<title>Formulario Receta</title>
 </head>
 <body>
+<form action="https://www.w3schools.com/action_page.php" meyhod="post">
 	<fieldset>
 		<legend>Datos Receta</legend>
 		<label for="nombre">Nombre: </label>
-		<input type="text" name="nombre" id="nombre"><br><label for="correo">Correo: </label>
-		<input type="email" name="correo" id="email"><br>
-
-
+			<input type="text" name="nombre" id="nombre"><br><label for="correo">Correo: </label>
+			<input type="email" name="correo" id="email" placeholder="correo@ejemplo.com"><br>
+		<label>Momento de la Comida</label>
+			<input type="checkbox" name="momento1">desayuno
+			<input type="checkbox" name="momento1">almuerzo
+			<input type="checkbox" name="momento1">merienda
+			<input type="checkbox" name="momento1">cena
+			<input type="checkbox" name="momento1">postre
+		<label for="ingredientes">Ingredientes: </label>
+        <select name="ingredientes" id="ingredientes">
+            <optgroup label="Carnes">
+                <option>Ternera</option>
+                <option>Pollo</option>
+                <option>Pavo</option>
+            </optgroup>
+            <optgroup label="Pescados">
+                <option>Mero</option>
+                <option>Lubina</option>
+                <option>Salmón</option>
+            </optgroup>
+            <optgroup label="Verdura">
+                <option>Lechuga</option>
+                <option>Tomate</option>
+                <option>Pimiento</option>
+            </optgroup>
+            <optgroup label="Fruta">
+                <option>Caqui</option>
+                <option>Chirimolla</option>
+                <option>Plátano</option>
+            </optgroup>
+        </select><br><br>
+        <label>Tiempo </label>
+        <input name="hora" type="radio" value="0">
+        <input name="hora" type="radio" value="1">
+        <input name="hora" type="radio" value="2">
+        <br><br>
+        <input name="hora" type="radio" value="0">
+        <input name="hora" type="radio" value="15">
+        <input name="hora" type="radio" value="30">
+        <input name="hora" type="radio" value="45">
 	</fieldset>
 
 
