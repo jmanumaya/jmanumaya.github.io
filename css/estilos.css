@@ -23,20 +23,38 @@ h3{
 #tm3{
     background-color: rgb(252, 128, 128);
     width: 200px;
-    box-shadow: 0px 5px 5px rgb(255, 255, 255);
+    box-shadow: 0px 5px 5px rgb(100, 45, 45);
     margin: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#tm3:hover{
+    transform: scale(1.05);
 }
 #tm3c{
+    background-color: rgb(241, 188, 188);
+    padding-bottom: 10px;
+}
+#tm3c:hover{
     background-color: rgb(241, 188, 188);
     padding-bottom: 10px;
 }
 #tm4{
     background-color: rgb(127, 94, 219);
     width: 200px;
-    box-shadow: 0px 5px 5px rgb(255, 255, 255);
+    box-shadow: 0px 5px 5px rgb(100, 45, 45);
     margin: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#tm4:hover{
+    transform: scale(1.05);
 }
 #tm4c{
+    background-color: rgb(188, 161, 223);
+    padding-bottom: 10px;
+}
+#tm4c:hover{
     background-color: rgb(188, 161, 223);
     padding-bottom: 10px;
 }
