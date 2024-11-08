@@ -1,0 +1,30 @@
+#img1{
+    display: block;
+    background-image: url('../img/images.png');
+    background-position: center;
+    width: 200px;
+    height: 200px;
+    background-size: 50px, 50px;
+    background-repeat: no-repeat;
+    border: 3px red solid;
+}
+#img2{
+    display: block;
+    background-image: url('../img/images.png');
+    background-position: center bottom;
+    width: 200px;
+    height: 200px;
+    background-size: 50px, 50px;
+    background-repeat: repeat-x;
+    border: 3px blue solid;
+}
+#img3{
+    display: block;
+    background-image: url('../img/images.png');
+    background-position: right;
+    width: 200px;
+    height: 200px;
+    background-size: 50px, 50px;
+    background-repeat: repeat-y;
+    border: 3px green solid;
+}
