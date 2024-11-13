@@ -11,7 +11,7 @@
 #img2{
     display: block;
     background-image: url('../img/images.png');
-    background-position: center bottom;
+    background-position: left bottom;
     width: 200px;
     height: 200px;
     background-size: 50px, 50px;
@@ -21,7 +21,7 @@
 #img3{
     display: block;
     background-image: url('../img/images.png');
-    background-position: right;
+    background-position: right top;
     width: 200px;
     height: 200px;
     background-size: 50px, 50px;
