@@ -21,7 +21,7 @@ h3{
     display: inline-block;
 }
 #container{
-    display: block;
+    display: flex;
 }
 .container2{
     width: 200px;
@@ -104,4 +104,7 @@ hr{
 }
 .texto_centro{
     text-align: center;
+}
+a{
+    color: black;
 }
