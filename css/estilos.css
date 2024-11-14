@@ -18,7 +18,7 @@ h3{
     display: inline-block;
 }
 #container{
-    display: inline-block;
+    display: block;
     border: 1px solid black;
 }
 #tm3{
