@@ -3,9 +3,9 @@ Estoy intentando dividir cada tema por bloques, tengo que implementar lo que lle
 en el index main de la web.
 ~~~~~~~~
 
-
+~~~~~~~~
 Tambien tengo que revisar cómo implementar un borde a cada bloque de temas.
-
+~~~~~~~~
 
 ~~~~~~~~
 TENGO QUE AÑADIR LOS NUEVOS EJERCICIOS DE HOY 06/11
@@ -13,3 +13,6 @@ TENGO QUE AÑADIR LOS NUEVOS EJERCICIOS DE HOY 06/11
 
 
 AÑADIR HOVER A CADA LINK
+
+
+RESETEAR TODO EL PROCESO PORQUE NO ME CUADRA
