@@ -1,59 +1,115 @@
-body{
+/* Fondo general */
+body {
     background-color: #B5F4FF;
+    font-family: Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
 }
-h1{
-    font-family: Helvetica;
-}
-header{
+/* Estilo del header */
+header {
     background-color: #007bff;
-    border: 1px solid black;
-    border-radius: 3px;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
 }
-nav a{
+/* Estilo del nav */
+nav {
+    display: inline-block;
+    gap: 150px; /* Espaciado entre los enlaces */
+}
+nav a {
     color: white;
     text-decoration: none;
-    transition: ease(1.5);
+    margin: 0 10px;
+    transition: color 0.3s ease;
+    margin-right: 130px;
+    margin-left: 100px;
+    display: inline-block;
 }
-nav a:hover{
-    color:royalblue;
+nav a:hover {
+    color: #FFD700;
 }
-section{
+
+/* Estilo de la sección general */
+#contenido {
+    padding: 20px;
     display: flex;
-    
-    justify-content: center;
-    margin: 2px;
-}
-#contenido{
-    padding: 2px;
-    border: 1px solid black;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
-#sobremi{
-    display: flexbox;
+#contenido h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+#contenido p {
+    font-size: 1em;
+    color: #333;
+}
+#contenido img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+ul, ol {
+    list-style:inside;
+    margin: 0;
+    padding: 0;
+    color: rgb(117, 117, 117);
+}
+
+/* Sección de imágenes favoritas en Inicio */
+.imagenes-favoritas {
+    display: flex;
     justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
 }
-#contenido h2{
-    font-size: 21px;
+.imagenes-favoritas img {
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-#contenido p{
-    font-size: 17px;
-    color: black;
-    text-shadow: 1px, 1px, 1px black;
+.imagenes-favoritas img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
-footer{
-    background-color: black;
+
+/* Estilo del footer */
+footer {
+    background-color: #333;
     color: white;
     text-align: center;
-    padding: 3px;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
 }
-p{
-    margin: 2px;
+
+/* Formulario de contacto */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-.imagenes{
-    width: "45px";
-    height: "75px";
-    box-shadow: -4px 5px 5px bisque;
-    display:flex;
-    border: 1px solid black;
+input, textarea, button {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Margins and spacing for sections */
+section {
+    margin: 20px;
 }
