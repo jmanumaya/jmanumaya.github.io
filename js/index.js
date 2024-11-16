@@ -1,1 +1,1 @@
-alert("Página actualmente en mantenimiento o pruebas")
+alert("Página actualmente en mantenimiento o pruebas: 'CSS Nivel Básico'")
