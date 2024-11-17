@@ -13,18 +13,13 @@ header {
     display: flex;
     justify-content: center;
 }
-/* Estilo del nav */
-nav {
-    display: inline-block;
-    gap: 150px; /* Espaciado entre los enlaces */
-}
+
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 10px;
     transition: color 0.3s ease;
-    margin-right: 130px;
-    margin-left: 100px;
+    margin-right: 70px;
+    margin-left: 40px;
     display: inline-block;
 }
 nav a:hover {
