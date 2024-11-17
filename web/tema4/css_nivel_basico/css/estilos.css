@@ -13,7 +13,7 @@ header {
     display: flex;
     justify-content: center;
 }
-
+/* Estilos de los enlaces del nav */
 nav a {
     color: white;
     text-decoration: none;
@@ -56,11 +56,18 @@ nav a:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
 }
-ul, ol {
+ul {
     list-style:inside;
     margin: 0;
     padding: 0;
     color: rgb(117, 117, 117);
+}
+ol{
+    margin: 0;
+    padding: 0;
+    color: rgb(117, 117, 117);
+    text-align: left;
+    margin-left: 100px;
 }
 
 /* Sección de imágenes favoritas en Inicio */
@@ -90,7 +97,7 @@ footer {
     border-radius: 10px;
 }
 
-/* Formulario de contacto */
+/* Estilo del Formulario de contacto */
 form {
     display: flex;
     flex-direction: column;
@@ -109,9 +116,4 @@ button {
 }
 button:hover {
     background-color: #0056b3;
-}
-
-/* Margins and spacing for sections */
-section {
-    margin: 20px;
 }
