@@ -8,6 +8,77 @@
 </head>
 <body>
 <a href="../../../../index.html">Menú Principal</a></li>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <form action="https://lm.ciclo.iesnervion.es/" method="post">
+                <fieldset>
+                <legend>Datos Receta</legend>
+            </div>
+            <div class="card-body">
+                <label for="nombre">Nombre: </label>
+                <input type="text" name="nombre" id="nombre"><br><label for="correo">Correo: </label>
+                <input type="email" name="correo" id="correo" placeholder="correo@ejemplo.com"><br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <form action="https://lm.ciclo.iesnervion.es/" method="post">
+                <fieldset>
+                <legend>Datos Receta</legend>
+            </div>
+            <div class="card-body">
+                <label>Momento de la Comida</label>
+                <input type="checkbox" name=momento[]>desayuno
+                <input type="checkbox" name="momento[]">almuerzo
+                <input type="checkbox" name="momento[]">merienda
+                <input type="checkbox" name="momento[]">cena
+                <input type="checkbox" name="momento[]">postre
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <form action="https://lm.ciclo.iesnervion.es/" method="post">
+                <fieldset>
+                <legend>Datos Receta</legend>
+            </div>
+            <div class="card-body">
+                <label for="ingredientes">Ingredientes: </label>
+        <select name="ingredientes[]" id="ingredientes" multiple>
+            <optgroup label="Carnes">
+                <option>Ternera</option>
+                <option>Pollo</option>
+                <option>Pavo</option>
+            </optgroup>
+            <optgroup label="Pescados">
+                <option>Mero</option>
+                <option>Lubina</option>
+                <option>Salmón</option>
+            </optgroup>
+            <optgroup label="Verdura">
+                <option>Lechuga</option>
+                <option>Tomate</option>
+                <option>Pimiento</option>
+            </optgroup>
+            <optgroup label="Fruta">
+                <option>Caqui</option>
+                <option>Chirimolla</option>
+                <option>Plátano</option>
+            </optgroup>
+        </select>
+            </div>
+        </div>
+    </div>
+</div>
 <form action="https://lm.ciclo.iesnervion.es/" method="post">
 	<fieldset>
 		<legend>Datos Receta</legend>
