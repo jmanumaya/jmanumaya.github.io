@@ -1,0 +1,133 @@
+/* Fondo general */
+body {
+    background-color: white;
+    font-family: Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* Estilo del header */
+header {
+    background-color: #bb977e;
+    padding: 10px;
+    /* border-radius: 10px; */
+    display: flex;
+    justify-content: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    margin-right: 70px;
+    margin-left: 40px;
+    margin-top: 2px;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 3.5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    position: relative; /* Necesario para usar ::after */
+}
+
+nav a::after {
+    content: ""; /* Elemento decorativo vacío */
+    position: absolute;
+    left: 50%; /* Comienza en el centro */
+    bottom: 0; /* Posicionado justo debajo del texto */
+    width: 0; /* Comienza sin ancho */
+    height: 2px; /* Grosor de la línea */
+    background-color: white; /* Color de la línea */
+    transition: width 0.3s ease; /* Efecto suave */
+    transform: translateX(-50%); /* Centrado horizontal */
+}
+
+nav a:hover {
+    text-decoration: none; /* Mantenemos limpio el diseño */
+}
+
+nav a:hover::after {
+    width: 100%; /* Expande la línea para cubrir todo el texto */
+}
+
+
+nav {
+    list-style: none;
+    /* border: 1px black solid; */
+}
+
+#margenav {
+    margin-left: 300px;
+}
+
+#bienvenida{
+    text-align: center;
+}
+
+#menu{
+    border: 0,5px ridge black;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 40px;
+    border-radius: 15px;
+    box-shadow: -4px 2px 15px rgb(219, 198, 198);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card{
+    display: inline-block;
+    margin: 20px;
+    margin-left: 70px;
+    text-align: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover{
+    transform: scale(1.1);
+}
+
+hr{
+    margin: 20px;
+}
+
+table{
+    border: 1px solid grey;
+    text-align: center;
+    margin-left: 37%;
+    margin-bottom: 15px;
+}
+
+tr{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+td{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+td img{
+    border: 1px solid gray;
+}
+
+.pantalla{
+    border: 1px solid gray;
+}
+
+footer {
+    background-color: #bb977e;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+
+footer a{
+    color: black;
+}
