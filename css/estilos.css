@@ -78,7 +78,7 @@ h3{
 
 #tm4:hover {
     transform: scale(1.05);
-    height: 172.5px; /*Cambiar esto en el tema cuatro para agrandar la caja de enlaces*/
+    height: 208.9px; /*Cambiar esto en el tema cuatro para agrandar la caja de enlaces*/
 }
 
 #tm4:hover #tm4c {
@@ -92,7 +92,10 @@ h3{
     opacity: 1;
     visibility: visible;
 }
-#tm5{
+
+/* PARA EL TEMA 5 ESTILOS */
+
+/* #tm5{
     background-color: rgb(252, 128, 128);
 }
 #tm5:hover{
@@ -105,8 +108,11 @@ h3{
 #tm5c:hover{
     background-color: rgb(188, 161, 223);
     padding-bottom: 10px;
-}
-#pcs{
+} */
+
+/* EJERCICIOS DE CASA ESTILO */
+
+/* #pcs{
     background-color: rgb(79, 128, 119);
     height: 70px;
     transition: transform 0.3s ease, height 0.3s ease;
@@ -133,7 +139,7 @@ h3{
     padding-bottom: 10px;
     opacity: 1;
     visibility: visible;
-}
+} */
 ul{
     list-style: none;
     text-align: center;
