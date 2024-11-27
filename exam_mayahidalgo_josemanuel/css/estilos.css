@@ -8,31 +8,47 @@ body {
 /* Estilo del header */
 header {
     background-color: #bb977e;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
+    padding: 10px 20px;
+}
+
+/* Nav principal */
+nav {
+    display: flex; /* Activo el modelo Flexbox */
+    justify-content: space-between; /* Espacio los elementos: logo, enlaces y perfil */
+    align-items: center; /* Alino todo verticalmente */
+}
+
+/* Logotipo */
+nav .logo img {
+    display: block;
+    margin-left: 10px; /* Espaciado a la izquierda */
+}
+
+/* Enlaces del menú */
+nav .enlaces {
+    display: flex; /* Flexbox para mantener los enlaces horizontales */
+    gap: 40px; /* Espaciado uniforme entre los enlaces */
+    flex-grow: 1; /* Ocupar el espacio disponible entre logo y perfil */
+    justify-content: center; /* Centra los enlaces dentro del espacio */
 }
 
 nav a {
     color: white;
     text-decoration: none;
     font-size: 20px;
-    margin-right: 70px;
-    margin-left: 40px;
-    margin-top: 2px;
-    display: inline-block;
-    padding: 5px;
-    border-radius: 3.5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 3px;
     position: relative;
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Efecto de línea debajo */
 nav a::after {
     content: "";
     position: absolute;
     left: 50%;
     bottom: 0;
-    width: 0; 
+    width: 0;
     height: 2px;
     background-color: white;
     transition: width 0.3s ease;
@@ -40,38 +56,18 @@ nav a::after {
 }
 
 nav a:hover {
-    text-decoration: none;
+    color: #f0e6de; /* Cambio ligeramente el color del texto al pasar el cursor */
 }
 
 nav a:hover::after {
-    width: 100%; 
+    width: 100%; /* Línea se expande al 100% al hacer hover */
 }
 
-
-nav {
-    list-style: none;
-    /* border: 1px black solid; */
-    display: inline-block;
-    width: 100%;
-}
-
-nav .enlaces{
-    display: inline-block;
-    justify-content: center;
-    margin-left: 170px;
-    margin-right: 110px;
-    
-}
-nav .logo{
-    display: inline-block;
-}
-nav .perfil{
-    display: inline-block;
-    margin-right: 0px;
-}
-
-#margenav {
-    margin-left: 300px;
+/* Imagen de perfil */
+nav .perfil img {
+    display: block;
+    margin-right: 10px; /* Espaciado a la derecha */
+    border-radius: 50%;
 }
 
 #bienvenida{
