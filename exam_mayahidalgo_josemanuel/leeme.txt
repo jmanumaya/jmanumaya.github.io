@@ -1,0 +1,3 @@
+Puede que haya clases o id que al final no haya usado...
+
+o en el propio css que haya cosas que no hagan nada porque se me haya pasado quitarlas o algo
