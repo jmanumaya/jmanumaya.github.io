@@ -78,7 +78,7 @@ h3{
 
 #tm4:hover {
     transform: scale(1.05);
-    height: 208.9px; /*Cambiar esto en el tema cuatro para agrandar la caja de enlaces*/
+    height: 316px; /*Cambiar esto en el tema cuatro para agrandar la caja de enlaces*/
 }
 
 #tm4:hover #tm4c {

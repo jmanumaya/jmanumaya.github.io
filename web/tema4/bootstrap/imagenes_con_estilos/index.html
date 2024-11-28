@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<!-- IMPORTANTE: HE INTENTADO USAR BOOTSTRAP SIEMPRE QUE HE PODIDO USARLO YA QUE HAN HABIDO ESTILOS QUE DIRECTAMENTE NO LOS HE ENCONTRADO Y CREO QUE NO TIENE TANTOS 
+COMO PARA PODER REALIZAR LA REPETICIÓN DE LA IMAGEN Y DEMÁS COMO SE BUSCA EN ESTE EJERCICIO... HE INVESTIGADO Y TENDRÍA QUE MODIFICARLOS O CREAR PERSONALIZADOS POR MI O ALGO ASI-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Imágenes con Estilos</title>
+</head>
+<body class="container py-4">
+    <!-- Enlace al menú principal -->
+    <!-- btn-primary: Aplica estilo de botón con fondo azul -->
+    <!-- mb-3: Añade un margen en la parte inferior -->
+    <a id="tomenu" href="../../../../index.html" class="btn btn-primary mb-3">Menú Principal</a>
+
+    <!-- Encabezado -->
+    <!-- text-center: Centra el texto en la página -->
+    <!-- mb-4: Añade un margen en la parte inferior -->
+    <h1 class="text-center mb-4">CSS: Imágenes con Estilos</h1>
+
+    <!-- Bloques con imágenes -->
+    <!-- row: Define una fila dentro de un contenedor de grid -->
+    <!-- g-3: Añade un espacio entre las columnas -->
+    <!-- justify-content-center: Centra las columnas dentro de la fila -->
+    <div class="row g-3 justify-content-center">
+        
+        <!-- Bloque 1 -->
+        <!-- col-auto: Define un ancho automático para las columnas -->
+        <!-- border: Aplica un borde alrededor del contenedor -->
+        <!-- border-danger: Aplica color rojo al borde -->
+        <!-- rounded: Aplica bordes redondeados -->
+        <!-- style: Aplica un fondo con imagen (background-image), tamaño (background-size), sin repetición (no-repeat), y centrado (center) -->
+        <div class="col-auto border border-danger rounded" style="width: 200px; height: 200px; background-image: url('img/images.png'); background-size: 50px 50px; background-repeat: no-repeat; background-position: center;">
+        </div>
+
+        <!-- Bloque 2 -->
+        <!-- col-auto: Ancho automático -->
+        <!-- border: Aplica un borde -->
+        <!-- border-primary: Aplica color azul al borde -->
+        <!-- rounded: Bordes redondeados -->
+        <!-- style: Fondo con imagen repetida horizontalmente (repeat-x) y alineada en la parte inferior izquierda -->
+        <div class="col-auto border border-primary rounded" style="width: 200px; height: 200px; background-image: url('img/images.png'); background-size: 50px 50px; background-repeat: repeat-x; background-position: left bottom;">
+        </div>
+
+        <!-- Bloque 3 -->
+        <!-- col-auto: Ancho automático -->
+        <!-- border: Aplica borde alrededor del elemento -->
+        <!-- border-success: Aplica borde de color verde -->
+        <!-- rounded: Bordes redondeados -->
+        <!-- style: Fondo con imagen repetida verticalmente (repeat-y) y alineada en la parte superior derecha -->
+        <div class="col-auto border border-success rounded" style="width: 200px; height: 200px; background-image: url('img/images.png'); background-size: 50px 50px; background-repeat: repeat-y; background-position: right top;">
+        </div>
+    </div>
+</body>
+</html>
+
+	
