@@ -1,0 +1,11 @@
+Buenas, para ejecutar el código debes hacerlo desde un servidor, si estas viendo el código desde vsc, usa algun plugin de "servidor" como el liveGo.
+
+Por cierto cuidado con la resolución de la ventana, te recomiendo que lo juegues con la pantalla completa, para que se vea el tamaño completo que tiene la ventanita del juego, ya que, pueden ocultarse estrellas y estas son necesarias para cambiar de nivel y hacer que entre en escena un nuevo lote de estrellas y la correspondiete bomba.
+
+Esto es un simple juego que hice en el Grado Medio, totalmente como Hobby y desde un conocimiento nulo de Js (desde 0).
+
+No lo he actualizado ni nada, solo lo he subido por aquí para tenerlo y bueno si alguien entra que se pueda entretener con algo 😅😜.
+
+Un saluditooo!
+
+Maya 👨‍💻
