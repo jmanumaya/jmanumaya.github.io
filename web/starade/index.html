@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Starade</title>
+        <link rel="icon" type="image/png" href="assets/logoicono32x32.png" sizes="32x32" />
+        <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+        <style type="text/css">
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Empieza el código javascript -->
+        <script type="text/javascript">
+
+            // Alertas de bienvenida y advertencias
+            alert("Buenas!!! Bienvenido/a a Starade");
+            alert("Para jugar a este juego, (si usas el player 1) debes usar las flechas de tu teclado y (si usas el player 2) debes usar *WASD* si le das a la tecla 'q' abrirás el menú de ayuda");
+            alert("¡¡¡🚨CUIDADO CON PRESIONAR LA FLECHITA HACIA ABAJO O *S* EN EL SUELO INFERIOR🚨!!! (tendrás que resetear el juego)");
+            alert("¡¡¡🚨ATENCIÓN🚨 Si la música no se inicia sola, debes hacer click izquierdo con el raton en el juego (aunque si cojes la primera estrella o saltas debe iniciarse también)!!!");
+            alert("¡¡¡🚨ATENCIÓN🚨 Cuidado con la música que como predeterminada está muy alta!!!");
+            alert("¡¡¡Disfruta y espero que te guste!!!");
+
+            // Menú para elegir cantidad de jugadores
+            var playerCount = prompt("¿Cuántos jugadores? (1 o 2)");
+
+            if (playerCount !== "1" && playerCount !== "2") {
+            alert("Número de jugadores no válido. Seleccionando 1 jugador por defecto.");
+            playerCount = "1";
+            }
+
+            // Configuración del juego
+            var config = {
+                type: Phaser.AUTO,
+                width: 800,
+                height: 600,
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        gravity: { y: 300 },
+                        debug: false
+                    }
+                },
+                scene: {
+                    preload: preload,
+                    create: create,
+                    update: update
+                }
+            };
+
+            // Declaración de variables
+            var player; // Jugador 1
+            var playerDos; // Jugador 2
+            var stars; //Estrellas
+            var eggs;  // Huevos
+            var bombs;  // Bombas
+            var keyA;   // Tecla A
+            var keyS;   // Tecla B
+            var keyD;   // Tecla D
+            var keyW;   // Tecla W
+            var keyQ;   // Tecla Q
+            var platforms; // Plataformas
+            var spikes; //Pinchos
+            var cursors;  // Cursor
+            var score = 0; // Contador player 1
+            var scoreDos = 0; // Contador player 2
+            var level = 1; // Contador de niveles
+            var background; // Fondo
+            var gameOver = false; //game Over
+            var scoreText; //texto de puntuación del player 1
+            var scoreTextDos; // Texto de puntuación del player 2
+            var levelText; // Texto del nivel
+            var eggExists = false; // Situación del Huevo
+
+            // Inicialización del juego
+            var game = new Phaser.Game(config);
+
+            function preload() {
+                // Carga de imágenes y sonidos
+                this.load.image('sky1', 'assets/sky.png');
+                this.load.image('sky2', 'assets/skylevelpar.png');
+                this.load.image('ground', 'assets/platform.png');
+                this.load.image('grounddos', 'assets/platformdos.png');
+                this.load.image('star', 'assets/star.png');
+                this.load.image('egg', 'assets/egg.png');
+                this.load.image('bomb', 'assets/bomb.png');
+                this.load.image('spike', 'assets/pincho.png');
+                this.load.audio('backgroundMusic', 'assets/backgroundmusic.mp3');
+                this.load.audio('gameover', 'assets/gameover.mp3');
+                this.load.audio('jump', 'assets/salto.mp3');
+                this.load.audio('coin', 'assets/coin.mp3');
+                this.load.audio('eggSound', 'assets/eggsound.mp3');
+                this.load.spritesheet('dude', 'assets/dude2.png', { frameWidth: 32, frameHeight: 48 });
+                this.load.spritesheet('dude2', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+            }
+
+            function startBackgroundMusic() {
+                // Iniciar música de fondo
+                backgroundMusic = this.sound.add('backgroundMusic');
+                backgroundMusic.play({ loop: true });
+                isBackgroundMusicPlaying = true;
+            }
+
+            function create() {
+                // Crear fondo y música de fondo
+                background = this.add.image(400, 300, 'sky1');
+                startBackgroundMusic.call(this);
+
+                // Crear plataformas y pinchos
+                platforms = this.physics.add.staticGroup();
+                var jumpSound = this.sound.add('jump');
+                
+                platforms.clear(true, true);
+                createPlatforms();
+                
+                spikes = this.physics.add.staticGroup();
+                createSpikes();
+
+                // Grupo de huevos
+                eggs = this.physics.add.group();
+
+                // Crear las teclas
+                keyA = this.input.keyboard.addKey('A');
+                keyS = this.input.keyboard.addKey('S');
+                keyD = this.input.keyboard.addKey('D');
+                keyW = this.input.keyboard.addKey('W');
+                keyQ = this.input.keyboard.addKey('Q');
+
+                if (playerCount === "1") {
+                    // Crear jugador
+                    player = this.physics.add.sprite(100, 450, 'dude');
+                    player.setBounce(0.2);
+                    player.setCollideWorldBounds(true);
+                } else {
+                    // Crear jugador
+                    player = this.physics.add.sprite(100, 450, 'dude');
+                    player.setBounce(0.2);
+                    player.setCollideWorldBounds(true);
+
+                    // Crear jugador dos
+                    playerDos = this.physics.add.sprite(200, 450, 'dude2'); // Cambié la posición X a 200
+                    playerDos.setBounce(0.2);
+                    playerDos.setCollideWorldBounds(true);
+                }
+                
+                // Animaciones del jugador
+                this.anims.create({
+                    key: 'left',
+                    frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'turn',
+                    frames: [{ key: 'dude', frame: 4 }],
+                    frameRate: 20
+                });
+
+                this.anims.create({
+                    key: 'right',
+                    frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                // Animaciones del jugador dos
+                this.anims.create({
+                    key: 'leftDos',
+                    frames: this.anims.generateFrameNumbers('dude2', { start: 0, end: 3 }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'turnDos',
+                    frames: [{ key: 'dude2', frame: 4 }],
+                    frameRate: 20
+                });
+
+                this.anims.create({
+                    key: 'rightDos',
+                    frames: this.anims.generateFrameNumbers('dude2', { start: 5, end: 8 }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'ADos',
+                    frames: this.anims.generateFrameNumbers('dude2', { start: 0, end: 3 }),
+                    frameRate: 10,
+                    repeat: -1
+                });
+
+                this.anims.create({
+                    key: 'WDos',
+                    frames: [{ key: 'dude2', frame: 4 }],
+                    frameRate: 20
+                });
+
+                cursors = this.input.keyboard.createCursorKeys();
+
+                // Grupo de estrellas
+                stars = this.physics.add.group({
+                    key: 'star',
+                    repeat: 11,
+                    setXY: { x: 12, y: 0, stepX: 70 }
+                });
+
+                stars.children.iterate(function (child) {
+                    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+                });
+
+                // Grupo de bombas
+                bombs = this.physics.add.group();
+
+                // Texto de puntuación y nivel
+                scoreText = this.add.text(16, 16, 'Pts Jugador 1: 0', { fontSize: '32px', fill: '#000' });
+
+                if (playerCount === "2") {
+                    // Si hay dos jugadores, crea el texto para el segundo jugador
+                    scoreTextDos = this.add.text(16, 50, 'Pts Jugador 2: 0', { fontSize: '32px', fill: '#000' });
+                }
+
+                levelText = this.add.text(600, 16, 'Nivel: ' + level, { fontSize: '32px', fill: '#000' });
+
+                // Colisiones y superposiciones
+                this.physics.add.collider(player, platforms);
+                if (playerDos) { // Solo agregar la colisión si playerDos existe
+                    this.physics.add.collider(playerDos, platforms);
+                }
+                this.physics.add.collider(stars, platforms);
+                this.physics.add.collider(bombs, platforms);
+                this.physics.add.collider(player, spikes, hitSpike, null, this);
+                if (playerDos) { // Solo agregar la colisión si playerDos existe
+                    this.physics.add.collider(playerDos, spikes, hitSpikeDos, null, this);
+                }
+                this.physics.add.collider(eggs, platforms);
+
+                this.physics.add.overlap(player, stars, collectStar, null, this);
+                this.physics.add.collider(player, bombs, hitBomb, null, this);
+                this.physics.add.overlap(player, eggs, collectEgg, null, this);
+                if (playerDos) { // Solo agregar la superposición si playerDos existe
+                    this.physics.add.overlap(playerDos, stars, collectStarDos, null, this);
+                    this.physics.add.collider(playerDos, bombs, hitBombDos, null, this);
+                    this.physics.add.overlap(playerDos, eggs, collectEggDos, null, this);
+                }
+            }
+
+            function update() {
+                if (gameOver) {
+                    return;
+                }
+
+                // Movimientos del jugador
+                if (cursors.left.isDown) {
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                }
+                else if (cursors.right.isDown) {
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                }
+                else {
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
+
+                // Saltar
+                if (cursors.up.isDown && player.body.touching.down) {
+                    player.setVelocityY(-330);
+                    var jumpSound = this.sound.add('jump');
+                    jumpSound.play();
+                }
+
+                // Modo Especial al presionar flecha abajo
+                if (cursors.down.isDown) {
+                    player.setTint(0x00ff00);
+                    player.body.checkCollision.none = true;
+                    player.setVelocityX(player.body.velocity.x / 2);
+                } else {
+                    player.setTint();
+                    player.body.checkCollision.none = false;
+                }
+
+                if (playerDos) { // Solo actualizar playerDos si existe
+                    // Movimientos del jugador dos
+                    if (keyA.isDown) {
+                        playerDos.setVelocityX(-160);
+                        playerDos.anims.play('leftDos', true);
+                    }
+                    else if (keyD.isDown) {
+                        playerDos.setVelocityX(160);
+                        playerDos.anims.play('rightDos', true);
+                    }
+                    else {
+                        playerDos.setVelocityX(0);
+                        playerDos.anims.play('turnDos');
+                    }
+
+                    // Saltar
+                    if (keyW.isDown && playerDos.body.touching.down) {
+                        playerDos.setVelocityY(-330);
+                        var jumpSound = this.sound.add('jump');
+                        jumpSound.play();
+                    }
+
+                    // Modo Especial al presionar flecha abajo
+                    if (keyS.isDown) {
+                        playerDos.setTint(0x00ff00);
+                        playerDos.body.checkCollision.none = true;
+                        playerDos.setVelocityX(playerDos.body.velocity.x / 2);
+                    } else {
+                        playerDos.setTint();
+                        playerDos.body.checkCollision.none = false;
+                    }
+                }
+
+                // Verificar si se ha presionado la tecla "q"
+                if (Phaser.Input.Keyboard.JustDown(keyQ)) {
+                    // Mostrar alerta con los controles del juego en dos columnas
+                    alert(
+                        "Controles del juego:\n\n" +
+                        "Jugador 1:\n" +
+                        "Flechas Izquierda/Derecha: Moverse\n" +
+                        "Flecha Arriba: Saltar\n" +
+                        "Flecha Abajo: Modo Especial\n\n" +
+                        (playerDos ? // Mostrar controles del jugador dos solo si playerDos existe
+                        "Jugador 2:\n" +
+                        "Teclas A/D: Moverse\n" +
+                        "Tecla W: Saltar\n" +
+                        "Tecla S: Modo Especial" : "")
+                    );
+                }
+                
+                // Avanzar de nivel y cambiar fondo
+                if (stars.countActive(true) === 0) {
+                    stars.children.iterate(function (child) {
+                        child.enableBody(true, child.x, 0, true, true);
+                    });
+
+                    level++;
+                    levelText.setText('Nivel: ' + level);
+
+                    if (level % 2 === 0) {
+                        background.setTexture('sky2');
+                    } else {
+                        background.setTexture('sky1');
+                    }
+
+                    // Crear nuevas plataformas, bombas y pinchos (mas abajo está la función)
+                    createPlatforms();
+                    createBombs();
+                    createSpikes();
+
+                    // Crear huevo si no existe uno
+                    if (!eggExists) {
+                        var x = Phaser.Math.Between(0, 800);
+                        var egg = eggs.create(x, 16, 'egg');
+                        egg.setCollideWorldBounds(true);
+                        egg.allowGravity = false;
+                        eggExists = true;
+                    }
+                }
+            }
+
+            function collectEgg(player, egg) {
+                // Recolectar huevo
+                egg.disableBody(true, true);
+                var eggSound = this.sound.add('eggSound');
+                eggSound.play();
+                score += 30;
+                scoreText.setText('Pts Jugador 1: ' + score);
+                eggExists = false;
+            }
+
+            function collectEggDos(playerDos, egg) {
+            // Recolectar huevo
+            egg.disableBody(true, true);
+            var eggSound = this.sound.add('eggSound');
+            eggSound.play();
+
+            if (playerCount === "2") {
+                // Solo actualizar el puntaje del jugador dos si hay dos jugadores
+                scoreDos += 30;
+                scoreTextDos.setText('Pts Jugador 2: ' + scoreDos);
+            }
+
+            eggExists = false;
+            }
+
+            function collectStar(player, star) {
+                // Recolectar estrella
+                star.disableBody(true, true);
+                var coinSound = this.sound.add('coin');
+                coinSound.play();
+                score += 10;
+                scoreText.setText('Pts Jugador 1: ' + score);
+            }
+
+            function collectStarDos(playerDos, star) {
+            // Recolectar estrella
+            star.disableBody(true, true);
+            var coinSound = this.sound.add('coin');
+            coinSound.play();
+
+            if (playerCount === "2") {
+                // Solo actualizar el puntaje del jugador dos si hay dos jugadores
+                scoreDos += 10;
+                scoreTextDos.setText('Pts Jugador 2: ' + scoreDos);
+            }
+            }
+            
+            // Crear las plataformas segun sea par o impar el nivel
+            function createPlatforms() {
+                platforms.clear(true, true);
+
+                if (level % 2 === 0) {
+                    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+                    platforms.create(150, 400, 'ground');
+                    platforms.create(750, 250, 'ground');
+                    platforms.create(200, 220, 'ground');
+                } else {
+                    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+                    platforms.create(600, 400, 'ground');
+                    platforms.create(300, 250, 'grounddos');
+                    platforms.create(100, 330, 'grounddos');
+                    platforms.create(750, 190, 'ground');
+                }
+            }
+
+            // Crear las bombas e incrementarlas
+            function createBombs() {
+                bombs.clear(true, true);
+
+                for (var i = 1; i < level; i++) {
+                    var x = Phaser.Math.Between(0, 800);
+                    var bomb = bombs.create(x, 16, 'bomb');
+                    bomb.setBounce(1);
+                    bomb.setCollideWorldBounds(true);
+                    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+                    bomb.allowGravity = false;
+                }
+            }
+
+            // Crear los pinchos cuando corresponde
+            function createSpikes() {
+                spikes.clear(true, true);
+
+                if (level % 2 === 0) {
+                    spikes.create(190, 195, 'spike');
+                    spikes.create(120, 195, 'spike');
+                    spikes.create(50, 195, 'spike');
+                }
+            }
+
+            // Parar la mísica de fondo
+            function stopBackgroundMusic() {
+                if (backgroundMusic && isBackgroundMusicPlaying) {
+                    backgroundMusic.stop();
+                    isBackgroundMusicPlaying = false;
+                }
+            }
+
+            // Comenzar la música de muerte
+            function startGameOverSound() {
+                gameOverSound = this.sound.add('gameover');
+                gameOverSound.play({ loop: 1 });
+                isGameOverSoundPlaying = true;
+            }
+
+            // lo que ocurre al tocar la bomba con el player 1
+            function hitBomb(player, bomb) {
+                stopBackgroundMusic();
+                player.setTint(0xff0000);
+                startGameOverSound.call(this);
+                alert("¡☠️ GAME OVER ☠️! Reinicia el juego 👍")
+                this.physics.pause();
+                player.anims.play('turn');
+                gameOver = true;
+            }
+
+            // lo que ocurre al tocar la bomba con el player 2
+            function hitBombDos(playerDos, bomb) {
+                stopBackgroundMusic();
+                playerDos.setTint(0xff0000);
+                startGameOverSound.call(this);
+                alert("¡☠️ GAME OVER ☠️! Reinicia el juego 👍")
+                this.physics.pause();
+                playerDos.anims.play('turnDos');
+                gameOver = true;
+            }
+
+            // lo que ocurre al tocar el pincho con el player 1
+            function hitSpike(player, spike) {
+                stopBackgroundMusic();
+                player.setTint(0xff0000);
+                startGameOverSound.call(this);
+                alert("¡☠️ GAME OVER ☠️! Reinicia el juego 👍")
+                this.physics.pause();
+                player.anims.play('turn');
+                gameOver = true;
+            }
+
+            // lo que ocurre al tocar el pincho con el player 2
+            function hitSpikeDos(playerDos, spike) {
+                stopBackgroundMusic();
+                playerDos.setTint(0xff0000);
+                startGameOverSound.call(this);
+                alert("¡☠️ GAME OVER ☠️! Reinicia el juego 👍")
+                this.physics.pause();
+                playerDos.anims.play('turnDos');
+                gameOver = true;
+            }
+        </script>
+    <!-- By Maya -->
+    </body>
+</html>
