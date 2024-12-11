@@ -12,6 +12,7 @@
     <button onclick="ejer1()">Ejercicio1</button>
     <button onclick="ejer2()">Ejercicio2</button>
     <button onclick="ejer3()">Ejercicio3</button>
+    <button onclick="ejer4()">Ejercicio4</button>
     <script>
         // Este ejercicio saluda con un nombre y una edad dada y luego hace una serie de operaciones
         function ejer1() {
@@ -90,8 +91,115 @@
 
             console.log(promedio(num1, num2));
 
-            // Tengo que seguir con este ejercicio...
+            let num;
+
+            alert(num = prompt('Ingrese un número: '))
+
+            function comprobarNumero(num) {
+
+                let respuesta;
+
+                if (num > 0) {
+                    respuesta = "positivo"
+                } else if (num < 0) {
+                    respuesta = "negativo"
+                } else {
+                    respuesta = "cero"
+                }
+
+                return respuesta;
+
+            }
+
+            console.log("El número " + num + " es " + comprobarNumero(num));
+
+            let anno;
+
+            alert(anno = prompt("Ingresa un Año: "))
+
+            function esBisiesto(anno) {
+                let respuesta
+
+                let resto
+
+                resto = anno % 4;
+
+                if (resto == 0) {
+                    respuesta = " es bisiesto"
+                } else {
+                    respuesta = " no es bisiesto"
+                }
+
+                return respuesta;
+            }
+
+            console.log("El año " + anno + esBisiesto(anno))
         }
+
+        function ejer4() {
+
+            let tabla = [1,2,3,4,5];
+
+            const eliminar = tabla[0];
+
+            // Añade un numero al final del array
+            tabla.push(6);
+
+            // Quita el primer numero de la tabla
+            tabla.shift();
+
+            for (let i = 0; i < tabla.length; i++){
+                console.log(tabla[i]);
+            }
+
+            function mayorDelArray(tabla) {      
+                mayor = 0;
+                for(let i = 0; i < tabla.length; i++) {
+                    if (tabla[i] > mayor) {
+                        mayor = tabla[i]
+                    }
+                }
+                return mayor;
+            }
+
+            console.log("El numero mayor de la tabla es el " + mayorDelArray(tabla));
+
+            // Objeto llamado persona con propiedades...
+            const persona = {
+                nombre: "Jose Manuel",
+                edad: 19,
+                ciudad: "Utrera",
+            }
+
+            console.log(persona)
+
+            // Añado una propiedad nueva denominada ocupación con valor de estudiante
+            persona.ocupacion = "Estudiante";
+
+            console.log(persona)
+
+            // Elimino la propiedad edad del objeto persona
+            delete persona.edad;
+
+            console.log(persona)
+
+            // Función que convierte un objeto en un string con sus claves y valores
+            function objectToString(persona) {
+            let resultado = '';
+
+            // Recorre cada clave en el objeto usando un bucle for...in
+            for (let propiedad in persona) {
+            // Añade la clave y el valor al string resultado, separados por ': '
+            resultado += propiedad + ': ' + persona[propiedad] + ', ';
+            }
+
+            // Elimina la última coma y el espacio adicional del string resultado
+            return resultado.slice(0, -2);
+            }
+
+            console.log(objectToString(persona));
+            // Salida: "nombre: Jose Manuel, edad: 19, ciudad: Utrera"
+            }
     </script>
 </body>
 </html>
