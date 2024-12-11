@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba 1</title>
+</head>
+<body>
+
+    <h1>Pulsa un boton y mira la consola anda...</h1>
+
+    <button onclick="ejer1()">Ejercicio1</button>
+    <button onclick="ejer2()">Ejercicio2</button>
+    <button onclick="ejer3()">Ejercicio3</button>
+    <script>
+        // Este ejercicio saluda con un nombre y una edad dada y luego hace una serie de operaciones
+        function ejer1() {
+            let nombre = "Jose Manuel";
+            let edad = "19";
+
+            let mensaje = "Hola! soy " + nombre + " y tengo " + edad + " años";  
+
+            console.log(mensaje);
+
+            let number1 = 1;
+
+            let number2 = 2;
+
+            console.log("La suma de " + number1 + " + " + number2 + " = " + (number1+number2));
+            console.log("La resta de " + number1 + " - " + number2 + " = " + (number1-number2));
+            console.log("La división de " + number1 + " / " + number2 + " = " + (number1/number2));
+            console.log("La multiplicación de " + number1 + " * " + number2 + " = " + (number1*number2));
+        }
+        // Este ejercicio hace otra serie de operaciones como saber si un numero es par, si alguien es mayor de edad...
+        function ejer2() {
+            let number2 = 2;
+            let resto = number2 % 2;
+
+            if (resto == 0){
+                console.log("El numero " + number2 + " es par.") 
+            } else {
+                console.log("El numero " + number2 + " es impar.")
+            }
+
+            let newEdad;
+
+            alert( newEdad = prompt('Ingrese su edad (luego mira la consola): '))
+
+            if (newEdad >= 18){
+                console.log('Usted puede votar')
+            } else {
+                console.log('Usted no puede votar')
+            }
+
+            for (let i = 0; i <= 10; i++){
+                console.log(i)
+            }
+
+            let suma = 0;
+
+            for (let i = 0; i < 100; i++){
+                suma += i;
+            }
+
+            console.log(suma);
+        };
+
+        // En este ejercicio realizo una serie de operaciones como realizar un saludo a traves de una función, realizar- 
+        // un promedio...
+        function ejer3 () {
+
+            let nombre;
+
+            alert(nombre = prompt('Ingrese su nombre: '))
+
+            function saludar(nombre) {
+                let saludo = "Hola " + nombre;
+                return saludo;
+            }
+
+            console.log(saludar(nombre));
+
+            let num1 = 2;
+            let num2 = 4;
+
+            function promedio(num1, num2){
+                let media = (num1 + num2) / 2;
+                return media;
+            }
+
+            console.log(promedio(num1, num2));
+
+            // Tengo que seguir con este ejercicio...
+        }
+    </script>
+</body>
+</html>
