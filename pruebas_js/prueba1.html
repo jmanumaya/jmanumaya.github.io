@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prueba 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,6 +31,15 @@
     <button onclick="ejer2()">Ejercicio2</button>
     <button onclick="ejer3()">Ejercicio3</button>
     <button onclick="ejer4()">Ejercicio4</button>
+    <button onclick="ejer5()">ACTIVAME ANTES DE DARLE AL BOTON "CAMBIAR TEXTO"</button>
+
+
+    <!-- Botón y párrafo -->
+    <button id="changeTextButton">Cambiar Texto</button>
+    <p id="textParagraph">Esto es un párrafo vacío</p>
+
+    <!-- Lista -->
+    <ul id="itemList"></ul>
     <script>
         // Este ejercicio saluda con un nombre y una edad dada y luego hace una serie de operaciones
         function ejer1() {
@@ -199,7 +226,32 @@
 
             console.log(objectToString(persona));
             // Salida: "nombre: Jose Manuel, edad: 19, ciudad: Utrera"
+        }
+
+        function ejer5 (){
+
+            // Cambiar el texto del párrafo al hacer clic en el botón
+            document.getElementById('changeTextButton').addEventListener('click', function() {
+                const paragraph = document.getElementById('textParagraph');
+                paragraph.textContent = '¡Has cambiado el texto del párrafo!';
+            });
+
+            // Referencia a la lista
+            const itemList = document.getElementById('itemList');
+
+            // Añadir 5 elementos de lista con texto
+            for (let i = 1; i <= 5; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Elemento ${i}`;
+                itemList.appendChild(listItem);
             }
+
+            // Eliminar el último elemento de la lista
+            if (itemList.lastChild) {
+                itemList.removeChild(itemList.lastChild);
+            }
+
+        }
     </script>
 </body>
 </html>

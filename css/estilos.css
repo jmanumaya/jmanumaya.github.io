@@ -93,22 +93,37 @@ h3{
     visibility: visible;
 }
 
-/* PARA EL TEMA 5 ESTILOS */
+/* Estilos actualizados para el Tema 5 */
+#tm5 {
+    background-color: rgb(224, 177, 69);
+    height: 70px;
+    transition: transform 0.3s ease, height 0.3s ease;
+}
 
-/* #tm5{
-    background-color: rgb(252, 128, 128);
+#tm5c {
+    background-color: rgb(215, 193, 140);
+    padding-bottom: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
-#tm5:hover{
+
+#tm5:hover {
     transform: scale(1.05);
+    height: 118px; /* Ajustar a la altura requerida */
 }
-#tm5c{
-    background-color: rgb(188, 161, 223);
-    padding-bottom: 10px;
+
+#tm5:hover #tm5c {
+    opacity: 1;
+    visibility: visible;
 }
-#tm5c:hover{
-    background-color: rgb(188, 161, 223);
+
+#tm5c:hover {
+    background-color: rgb(215, 193, 140);
     padding-bottom: 10px;
-} */
+    opacity: 1;
+    visibility: visible;
+}
 
 /* EJERCICIOS DE CASA ESTILO */
  
