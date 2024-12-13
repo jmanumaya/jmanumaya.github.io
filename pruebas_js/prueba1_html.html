@@ -41,6 +41,12 @@
             backdrop-filter: blur(20px);
         }
 
+        .mainContainer{
+            text-align: center;
+            /* border: 1px solid black; */
+            padding: 10px;
+        }
+
         label {
             display: block;
             margin-top: 5px;
@@ -124,35 +130,61 @@
     <nav>
     <h1>Diferentes Ejercicios con HTML y JS</h1>
     </nav>
-    <!--Contenedor para el primer ejercicio-->
-    <div class="container">
-        <h2>Presentación Personalizada</h2>
-        <form>
-            <label for="nameTitle">Indica tu Nombre</label>
-            <input type="text" name="nombre" id="inputName" placeholder="Pepito">
-            <label for="nameTitle">Indica tu Edad</label>
-            <input type="number" name="edad" id="inputEdad" placeholder="100">
-            <button type="button" id="btn_present" onclick="parrafoPresentation()">Enviar</button>
-        </form>
-        <p id="frasePresent">Frase: </p>
-        <hr>
-        <h2>Calculadora</h2>
-        <form>
-            <label for="nameTitle">Indica un Número</label>
-            <input type="number" name="num1" id="inputNum1" placeholder="0">
-            <label for="nameTitle">Indica un Número</label>
-            <input type="number" name="num2" id="inputNum2" placeholder="0">
-            <br>
-            <button type="button" class="operadores" id="btn_suma" onclick="sumar()">Sumar</button>
-            <button type="button" class="operadores" id="btn_resta" onclick="restar()">Restar</button>
-            <button type="button" class="operadores" id="btn_division" onclick="dividir()">Dividir</button>
-            <button type="button" class="operadores" id="btn_multiplicacion" onclick="multiplicar()">Multiplicar</button>
-        </form>
-        <hr>
-        <p id="resulCalculadora">Resultado: </p>
-    </div>
-    <!--FIN Contenedor para el primer ejercicio-->
+    <div class="mainContainer">
+        <!--Contenedor para el primer ejercicio-->
+        <div class="container">
+            <h2>Presentación Personalizada</h2>
+            <form>
+                <label for="nameTitle">Indica tu Nombre</label>
+                <input type="text" name="nombre" id="inputName" placeholder="Pepito">
+                <label for="nameTitle">Indica tu Edad</label>
+                <input type="number" name="edad" id="inputEdad" placeholder="100">
+                <button type="button" id="btn_present" onclick="parrafoPresentation()">Enviar</button>
+            </form>
+            <p id="frasePresent">Frase: </p>
+            <hr>
+            <h2>Calculadora</h2>
+            <form>
+                <label for="nameTitle">Indica un Número</label>
+                <input type="number" name="num1" id="inputNum1" placeholder="0">
+                <label for="nameTitle">Indica un Número</label>
+                <input type="number" name="num2" id="inputNum2" placeholder="0">
+                <br>
+                <button type="button" class="operadores" id="btn_suma" onclick="sumar()">Sumar</button>
+                <button type="button" class="operadores" id="btn_resta" onclick="restar()">Restar</button>
+                <button type="button" class="operadores" id="btn_division" onclick="dividir()">Dividir</button>
+                <button type="button" class="operadores" id="btn_multiplicacion" onclick="multiplicar()">Multiplicar</button>
+            </form>
+            <hr>
+            <p id="resulCalculadora">Resultado: </p>
+        </div>
+        <!--FIN Contenedor para el primer ejercicio-->
 
+        <!--Contenedor para el segundo ejercicio-->
+        <div class="container">
+            <h2>Entrar con Nombre</h2>
+            <form>
+                <label for="nameTitle">Indica tu Nombre</label>
+                <input type="text" name="nombre" id="inputName2" placeholder="Pepito">
+                <button type="button" id="btn_iniciar" onclick="entrar()">Entrar</button>
+            </form>
+            <hr>
+            <h2>Comprueba Números</h2>
+            <form>
+                <label for="nameTitle">Indica un Número</label>
+                <input type="number" name="num1" id="inputNum1Comprueba" placeholder="0">
+                <label for="nameTitle">Indica un Número</label>
+                <input type="number" name="num2" id="inputNum2Comprueba" placeholder="0">
+                <br>
+                <button type="button" class="operadores" id="btn_mayor" onclick="compruebaMayor()">¿Cual es el mayor?</button>
+                <button type="button" class="operadores" id="btn_iguales" onclick="compruebaIguales()">¿Son Iguales?</button>
+                <button type="button" class="operadores" id="btn_menor" onclick="compruebaMenor()">¿Cual es el menor?</button>
+            </form>
+            <hr>
+            <p id="resulComprobar">Resultado: </p>
+        </div>
+        <!--FIN Contenedor para el segundo ejercicio-->
+    </div>
     <footer><h3><a href="../index.html">Menú Principal</a></h3></footer>
     
     <script>
@@ -190,6 +222,48 @@
             const num2 = parseInt(document.getElementById("inputNum2").value);
             const resultado = num1 * num2;
             parrafoResultado.textContent = "Resultado: " + resultado;
+        }
+        function entrar(){
+            const name = document.getElementById("inputName2").value;
+            if (name.length == 0) {
+                alert('Error de Inicio. Debes Introducir tu Nombre');
+            } else {
+                alert('Has Accedido con Éxito!');
+            }
+        }
+        function compruebaMayor(){
+            const num1 = parseInt(document.getElementById("inputNum1Comprueba").value);
+            const num2 = parseInt(document.getElementById("inputNum2Comprueba").value);
+            const parrafo = document.getElementById("resulComprobar");
+            if (num1 > num2) {
+                parrafo.textContent = "Resultado: El mayor es el " + num1;
+            } else if (num2 > num1) {
+                parrafo.textContent = "Resultado: El mayor es el " + num2;
+            } else {
+                compruebaIguales();
+            }
+        }
+        function compruebaMenor(){
+            const num1 = parseInt(document.getElementById("inputNum1Comprueba").value);
+            const num2 = parseInt(document.getElementById("inputNum2Comprueba").value);
+            const parrafo = document.getElementById("resulComprobar");
+            if (num1 < num2) {
+                parrafo.textContent = "Resultado: El menor es el " + num1;
+            } else if (num2 < num1) {
+                parrafo.textContent = "Resultado: El menor es el " + num2;
+            } else {
+                compruebaIguales();
+            }
+        }
+        function compruebaIguales(){
+            const num1 = parseInt(document.getElementById("inputNum1Comprueba").value);
+            const num2 = parseInt(document.getElementById("inputNum2Comprueba").value);
+            const parrafo = document.getElementById("resulComprobar");
+            if (num1 == num2) {
+                parrafo.textContent = "Resultado: " + num1 + " y " + num2 + " son iguales.";
+            } else {
+                parrafo.textContent = "Resultado: " + num1 + " y " + num2 + " no son iguales.";
+            }
         }
     </script>
 </body>
