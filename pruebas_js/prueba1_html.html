@@ -84,7 +84,7 @@
             cursor: pointer;
         }
 
-        #btn_present{
+        #btn_present, #btn_iniciar{
             background: rgba(232, 230, 224, 0.544);
             backdrop-filter: blur(20px);
         }
@@ -184,6 +184,25 @@
             <p id="resulComprobar">Resultado: </p>
         </div>
         <!--FIN Contenedor para el segundo ejercicio-->
+
+        <!--Contenedor para el tercer ejercicio-->
+        <div class="container">
+            <h2>Registrarse</h2>
+            <form>
+                <label for="inputUsuario">Usuario</label>
+                <input type="text" name="nombre" id="inputUsuario" placeholder="Pepin08">
+
+                <label for="inputName3">Nombre</label>
+                <input type="text" name="nombre" id="inputName3" placeholder="Pepito">
+
+                <label for="inputEmail">Email</label>
+                <input type="email" name="email" id="inputEmail" placeholder="nombre@gmail.com">
+
+                <button type="button" id="btn_registrarse" onclick="registrarse()">Registrarse</button>
+            </form>
+        </div>
+        <!--FIN Contenedor para el tercer ejercicio-->
+        
     </div>
     <footer><h3><a href="../index.html">Menú Principal</a></h3></footer>
     
@@ -256,13 +275,30 @@
             }
         }
         function compruebaIguales(){
-            const num1 = parseInt(document.getElementById("inputNum1Comprueba").value);
+            const num1 = parseInt(document.querySelector("inputNum1Comprueba").value);
             const num2 = parseInt(document.getElementById("inputNum2Comprueba").value);
             const parrafo = document.getElementById("resulComprobar");
             if (num1 == num2) {
                 parrafo.textContent = "Resultado: " + num1 + " y " + num2 + " son iguales.";
             } else {
                 parrafo.textContent = "Resultado: " + num1 + " y " + num2 + " no son iguales.";
+            }
+        }
+        function registrarse() {
+            let usuario = document.querySelector("#inputUsuario");
+            let name = document.querySelector("#inputName3");
+            let email = document.querySelector("#inputEmail");
+            
+            if (usuario && name && email) {
+                if (usuario.value.trim() !== "" && name.value.trim() !== "" && email.value.trim() !== "") {
+                    alert(
+                        `Estos fueron los datos ingresados\nUsuario: ${usuario.value}\nNombre: ${name.value}\nMail: ${email.value}`
+                    );
+                } else {
+                    alert("Error: Todos los campos deben estar llenos.");
+                }
+            } else {
+                alert("Error: Algunos elementos no se encontraron en el formulario.");
             }
         }
     </script>
