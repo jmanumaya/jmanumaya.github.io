@@ -275,7 +275,7 @@
             }
         }
         function compruebaIguales(){
-            const num1 = parseInt(document.querySelector("inputNum1Comprueba").value);
+            const num1 = parseInt(document.getElementById("inputNum1Comprueba").value);
             const num2 = parseInt(document.getElementById("inputNum2Comprueba").value);
             const parrafo = document.getElementById("resulComprobar");
             if (num1 == num2) {
@@ -283,6 +283,7 @@
             } else {
                 parrafo.textContent = "Resultado: " + num1 + " y " + num2 + " no son iguales.";
             }
+            console.log(`El numero 1 es: ${num1}`)
         }
         function registrarse() {
             let usuario = document.querySelector("#inputUsuario");
