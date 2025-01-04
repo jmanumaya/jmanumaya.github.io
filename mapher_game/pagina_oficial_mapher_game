@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapher Game</title>
+</head>
+<body>
+    <h1>Bienvenido a Maphar Game</h1>
+    <p>Mapher Game es un emocionante juego donde fusionas animales y compites globalmente en una divertida aventura estratégica.</p>
+
+    <h2>Sobre el juego</h2>
+    <ul>
+        <li><strong>Nombre:</strong> Maphar Game</li>
+        <li><strong>Género:</strong> Puzzle y estrategia</li>
+        <li><strong>Características:</strong>
+            <ul>
+                <li>Fusiona fichas de animales para desbloquear nuevas especies.</li>
+                <li>Compite en las clasificaciones globales.</li>
+                <li>Gráficos vibrantes y jugabilidad infinita.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Política de privacidad</h2>
+    <p>Consulta nuestra política de privacidad aquí: <a href="https://docs.google.com/document/d/14rUEZNxmRMLqLHPEsqPnlBJ84wU5arp3KxeyGpUKqrQ/edit?usp=sharing" target="_blank">Política de privacidad</a></p>
+
+    <h2>Contacto</h2>
+    <p>Para consultas o ayuda, escríbenos a: <a href="mailto:joyagogames.info@gmail.com">joyagogames.info@gmail.com</a></p>
+</body>
+</html>
