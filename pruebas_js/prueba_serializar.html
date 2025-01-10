@@ -137,8 +137,17 @@
         let years = document.getElementById("inpYears").value;
         let city = document.getElementById("inpCity").value;
 
-        if (!name || !lastName || !years || !city) {
-            alert("Por favor, rellena todos los campos.");
+        if (!name) {
+            alert("Por favor, rellena el campo nombre");
+            return;
+        } else if (!lastName) {
+            alert("Por favor, rellena el campo Apellidos");
+            return;
+        } else if (!years) {
+            alert("Por favor, rellena el campo Años");
+            return;
+        } else if (!city) {
+            alert("Por favor, rellena el campo Ciudad");
             return;
         }
 
