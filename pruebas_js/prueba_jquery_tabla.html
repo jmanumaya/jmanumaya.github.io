@@ -77,6 +77,16 @@
             gap: 15px;
             width: 100%;
         }
+
+        #div_checkbox {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacio entre los checkboxes */
+        }
+
+        #div_checkbox input {
+            margin-bottom: 10px; /* Espacio debajo de cada checkbox, puedes ajustarlo */
+        }
     
         form label {
             font-weight: bold;
@@ -197,6 +207,17 @@
                     <input type="text" id="inpLName" placeholder="Escribe tus apellidos">
                     <label for="years">Edad</label>
                     <input type="number" name="edadInput" id="inpYears" placeholder="Escribe tu edad">
+                    <label for="hobbies">Hobbies</label>
+                    <div id="div_checkbox">
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies1">deporte
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies2">lectura
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies3">viajar
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies4">música
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies5">cocinar
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies6">arte
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies7">teatro
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies8">fotografía
+                    </div>
                     <label for="cityTitle">Ciudad</label>
                     <input type="text" id="inpCity" placeholder="Escribe tu ciudad">
                     <button type="button" class="enviar" id="btn_enviar" onclick="enviar()">Enviar</button>
@@ -213,6 +234,7 @@
                             <th>Nombre</th>
                             <th>Apellidos</th>
                             <th>Edad</th>
+                            <th>Hobbies</th>
                             <th>Ciudad</th>
                         </tr>
                     </thead>
@@ -236,6 +258,10 @@
     
         // Contador que utilizare para asignar IDs únicos a las filas creadas.
         let contadorIdFilas = 1; 
+
+        let contadorEdades = 0;
+
+        let suma = 0;
     
         // Array que me sirve para llevar un registro de los IDs que estoy utilizando en las filas y los que esatn borrados para utilizarlos...
         let tablaIdsEnUso = []; 
@@ -244,7 +270,7 @@
     
             let name = $("#inpName").val();
             let lastName = $("#inpLName").val();
-            let years = $("#inpYears").val();
+            let years = parseInt($("#inpYears").val(), 10);
             let city = $("#inpCity").val();
     
             if (!name || !lastName || !years || !city) {
@@ -254,7 +280,19 @@
     
             alert("Datos enviados correctamente.");
     
-            let datos = { name, lastName, years, city };
+            let datos = { 
+                name, 
+                lastName, 
+                years, 
+                city, 
+                hobbies: []
+            };
+
+            $('input[name="hobbiesInput"]:checked').each(function() {
+                var textoSeleccionado = $(this).siblings('label').text().trim();
+                datos.hobbies.push(textoSeleccionado);
+            });
+
             const $tablaBody = $("#tabla-body");
     
             // Variable donde almacenare el ID que voy a usar para asignar a la fila actual.
@@ -273,18 +311,24 @@
                 // Registro este nuevo ID como "en uso".
                 contadorIdFilas++;
             }
+            
+            contadorEdades++;
+            // LLamo a calcula edades para mostrar por consola lo relacionado
+            calculaEdades(datos.years, contadorEdades);
     
             const nuevaFila = `
-                <tr id="tr_${idFila}">
+                <tr id="tr_${idFila}" onclick="eliminarFila(tr_${idFila})" type="button">
                     <td>${idFila}</td>
                     <td>${datos.name}</td>
                     <td>${datos.lastName}</td>
                     <td>${datos.years}</td>
+                    <td>${datos.hobbies}</td>
                     <td>${datos.city}</td>
                 </tr>
                 `
             ;
-            $tablaBody.append(nuevaFila); 
+            $tablaBody.append(nuevaFila);
+
     
             console.log("IDs en uso:", tablaIdsEnUso); 
         }
@@ -311,8 +355,46 @@
             // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
             let posicionIdEliminar = tablaIdsEnUso.indexOf(numFila);
             tablaIdsEnUso[posicionIdEliminar] = null;
+
+            contadorEdades--;
+            // LLamo a calcula edades para mostrar por consola lo relacionado
+            calculaEdades(datos.years, contadorEdades);
     
             console.log("IDs en uso tras eliminación:", tablaIdsEnUso); 
+        }
+
+        function calculaEdades(edad, contador){
+
+            let media;
+            let mayor = -1;
+            let menor = 200;
+
+            suma = suma + edad;
+            media = suma / contador;
+
+            if (edad > mayor) {
+                mayor = edad;
+            }
+            
+            if (edad < menor){
+                menor = edad;
+            }
+
+            console.log(suma)
+            console.log(media)
+            console.log(mayor)
+            console.log(menor)
+        }
+
+        function eliminarFila(idFila){
+            
+            // Elimino dicha fila que se quiere eliminar
+            $(idFila).remove();
+    
+            // Localizo la posición del ID en el array tablaIdsEnUso y lo marco como null.
+            // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
+            let posicionIdEliminar = tablaIdsEnUso.indexOf(idFila);
+            tablaIdsEnUso[posicionIdEliminar] = null;
         }
     </script>
 </body>
