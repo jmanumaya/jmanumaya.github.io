@@ -209,14 +209,14 @@
                     <input type="number" name="edadInput" id="inpYears" placeholder="Escribe tu edad">
                     <label for="hobbies">Hobbies</label>
                     <div id="div_checkbox">
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies1">deporte
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies2">lectura
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies3">viajar
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies4">música
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies5">cocinar
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies6">arte
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies7">teatro
-                        <input type="checkbox" name="hobbiesInput" id="inpHobbies8">fotografía
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies1" value="deporte">deporte
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies2" value="lectura">lectura
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies3" value="viajar">viajar
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies4" value="música">música
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies5" value="cocinar">cocinar
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies6" value="arte">arte
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies7" value="teatro">teatro
+                        <input type="checkbox" name="hobbiesInput" id="inpHobbies8" value="fotografía">fotografía
                     </div>
                     <label for="cityTitle">Ciudad</label>
                     <input type="text" id="inpCity" placeholder="Escribe tu ciudad">
@@ -227,7 +227,7 @@
             <!-- Bloque de la tabla -->
             <div class="tabla-contenedor">
                 <h2>Consulta los Registros</h2>
-                <table>
+                <table id="tabla">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -265,6 +265,9 @@
     
         // Array que me sirve para llevar un registro de los IDs que estoy utilizando en las filas y los que esatn borrados para utilizarlos...
         let tablaIdsEnUso = []; 
+
+        // Array de filas
+        let tablaFilas = [];
     
         function enviar() {
     
@@ -272,20 +275,28 @@
             let lastName = $("#inpLName").val();
             let years = parseInt($("#inpYears").val(), 10);
             let city = $("#inpCity").val();
-    
+            let hobbies = $('input[name="hobbiesInput"]')
+                            .filter(':checked')
+                            .map(function () {
+                                    return $(this).val();
+                                }
+                            ).get();
+
             if (!name || !lastName || !years || !city) {
                 alert("Por favor rellena todos tus datos.");
                 return;
             }
     
             alert("Datos enviados correctamente.");
+
+            alert(hobbies)
     
             let datos = { 
                 name, 
                 lastName, 
                 years, 
                 city, 
-                hobbies: []
+                hobbies,
             };
 
             $('input[name="hobbiesInput"]:checked').each(function() {
@@ -293,7 +304,7 @@
                 datos.hobbies.push(textoSeleccionado);
             });
 
-            const $tablaBody = $("#tabla-body");
+            // const $tablaBody = $("#tabla-body");
     
             // Variable donde almacenare el ID que voy a usar para asignar a la fila actual.
             let idFila;
@@ -327,8 +338,9 @@
                 </tr>
                 `
             ;
-            $tablaBody.append(nuevaFila);
-
+            // $tablaBody.append(nuevaFila);
+            
+            meterFila(nuevaFila);
     
             console.log("IDs en uso:", tablaIdsEnUso); 
         }
@@ -395,6 +407,27 @@
             // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
             let posicionIdEliminar = tablaIdsEnUso.indexOf(idFila);
             tablaIdsEnUso[posicionIdEliminar] = null;
+        }
+
+        function meterFila(nuevaFila){
+
+            tablaFilas.push(nuevaFila);
+
+            generaTabla();
+        }
+
+        function generaTabla(){
+
+
+
+            const $tablaBody = $("#tabla-body");
+            
+
+            $tablaBody.html("");
+
+            for(let i = 0; i < tablaFilas.length; i++){
+                $tablaBody.append(tablaFilas[i]);
+            }
         }
     </script>
 </body>
