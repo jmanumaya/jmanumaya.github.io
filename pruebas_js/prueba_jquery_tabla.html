@@ -60,6 +60,8 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             flex-shrink: 0;
+            margin-left: -70px;
+            margin-right: -70px;
         }
     
         .bloque-sticky {
@@ -68,6 +70,10 @@
             z-index: 999;
             background: #ecf0f1;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bloque-elimina{
+            margin-bottom: 30px;
         }
     
         form {
@@ -79,13 +85,13 @@
         }
 
         #div_checkbox {
-            display: flex;
+            display: contents;
             flex-wrap: wrap;
-            gap: 20px; /* Espacio entre los checkboxes */
+            gap: 0px; /* Espacio entre los checkboxes */
         }
 
         #div_checkbox input {
-            margin-bottom: 10px; /* Espacio debajo de cada checkbox, puedes ajustarlo */
+            margin-bottom: 0px; /* Espacio debajo de cada checkbox, puedes ajustarlo */
         }
     
         form label {
@@ -143,7 +149,6 @@
             text-align: center;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -157,6 +162,7 @@
     
         td {
             border-bottom: 1px solid #ecf0f1;
+            white-space: nowrap;
         }
     
         tr:hover td {
@@ -245,190 +251,327 @@
     
             <!-- Bloque del formulario para eliminar registros -->
             <div class="bloque bloque-sticky">
-                <h2>Elimina Algún Registro</h2>
-                <form>
-                    <label for="EliminaTitle">Indica el ID de la persona a eliminar</label>
-                    <input type="number" id="inpFila" placeholder="Indica el ID">
-                    <button type="button" class="eliminar" id="btn_eliminar" onclick="eliminar()">Eliminar Persona</button>
-                </form>
+                <div class="bloque-elimina">
+                    <h2>Elimina Algún Registro</h2>
+                    <form>
+                        <label for="EliminaTitle">Indica el ID de la persona a eliminar</label>
+                        <input type="number" id="inpFila" placeholder="Indica el ID">
+                        <button type="button" class="eliminar" id="btn_eliminar" onclick="eliminar()">Eliminar Persona</button>
+                    </form>
+                </div>
+                <div class="">
+                    <h2>Datos de Edades</h2>
+                    <table id="tablaDatosEdades">
+                        <thead>
+                            <tr>
+                                <th>Suma</th>
+                                <th>Media</th>
+                                <th>Mayor</th>
+                                <th>Menor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaDatosEdades-body">
+                            <tr>
+                                <td><p id="suma">0</p></td>
+                                <td><p id="media">0</p></td>
+                                <td><p id="mayor">0</p></td>
+                                <td><p id="menor">0</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>    
     <script>
     
-        // Contador que utilizare para asignar IDs únicos a las filas creadas.
-        let contadorIdFilas = 1; 
+        // // Contador que utilizare para asignar IDs únicos a las filas creadas.
+        // let contadorIdFilas = 1; 
 
-        let contadorEdades = 0;
+        // let contadorEdades = 0;
 
-        let suma = 0;
+        // let suma = 0;
     
-        // Array que me sirve para llevar un registro de los IDs que estoy utilizando en las filas y los que esatn borrados para utilizarlos...
-        let tablaIdsEnUso = []; 
+        // // Array que me sirve para llevar un registro de los IDs que estoy utilizando en las filas y los que esatn borrados para utilizarlos...
+        // let tablaIdsEnUso = []; 
 
-        // Array de filas
-        let tablaFilas = [];
+        // // Array de filas
+        // let tablaFilas = [];
     
+        // function enviar() {
+    
+        //     let name = $("#inpName").val();
+        //     let lastName = $("#inpLName").val();
+        //     let years = parseInt($("#inpYears").val(), 10);
+        //     let city = $("#inpCity").val();
+        //     let hobbies = $('input[name="hobbiesInput"]')
+        //                     .filter(':checked')
+        //                     .map(function () {
+        //                             return $(this).val();
+        //                         }
+        //                     ).get();
+
+        //     if (!name || !lastName || !years || !city) {
+        //         alert("Por favor rellena todos tus datos.");
+        //         return;
+        //     }
+    
+        //     alert("Datos enviados correctamente.");
+
+        //     alert(hobbies)
+    
+        //     let datos = { 
+        //         name, 
+        //         lastName, 
+        //         years, 
+        //         city, 
+        //         hobbies,
+        //     };
+
+        //     $('input[name="hobbiesInput"]:checked').each(function() {
+        //         var textoSeleccionado = $(this).siblings('label').text().trim();
+        //         datos.hobbies.push(textoSeleccionado);
+        //     });
+
+        //     // const $tablaBody = $("#tabla-body");
+    
+        //     // Variable donde almacenare el ID que voy a usar para asignar a la fila actual.
+        //     let idFila;
+            
+        //     // Antes de asignar un nuevo ID, reviso si tengo IDs eliminados que pueda reutilizar
+        //     if (tablaIdsEnUso.includes(null)) {
+        //         // Encuentro el primer ID eliminado (marcado como null) y lo reutilizo.
+        //         idFila = tablaIdsEnUso.findIndex(id => id === null) + 1;
+        //         tablaIdsEnUso[idFila - 1] = idFila; 
+        //         // Actualizo el array para indicar que este ID ya está en uso de nuevo.
+        //     } else {
+        //         // Si no hay IDs eliminados, utilizo el contador para asignar un nuevo ID.
+        //         idFila = contadorIdFilas;
+        //         tablaIdsEnUso.push(idFila); 
+        //         // Registro este nuevo ID como "en uso".
+        //         contadorIdFilas++;
+        //     }
+            
+        //     contadorEdades++;
+        //     // LLamo a calcula edades para mostrar por consola lo relacionado
+        //     calculaEdades(datos.years, contadorEdades);
+    
+        //     const nuevaFila = `
+        //         <tr id="tr_${idFila}" onclick="eliminarFila(tr_${idFila})" type="button">
+        //             <td>${idFila}</td>
+        //             <td>${datos.name}</td>
+        //             <td>${datos.lastName}</td>
+        //             <td>${datos.years}</td>
+        //             <td>${datos.hobbies}</td>
+        //             <td>${datos.city}</td>
+        //         </tr>
+        //         `
+        //     ;
+        //     // $tablaBody.append(nuevaFila);
+            
+        //     meterFila(nuevaFila);
+    
+        //     console.log("IDs en uso:", tablaIdsEnUso); 
+        // }
+    
+        // function eliminar() {
+    
+        //     // Obtengo el ID de la fila que se desea eliminar y lo convierto a un número
+        //     // Ya que si no pongo el parseInt me lo recoje como String y no se porque...
+        //     let numFila = parseInt($("#inpFila").val(), 10); //Pongo 10 para que se iterprete el numero como base decimal...
+    
+        //     // Verifico si el número de fila ingresado es válido:
+        //     // - No debe estar vacío.
+        //     // - Debe ser mayor o igual a 1.
+        //     // - Debe estar presente en el array tablaIdsEnUso.
+        //     if (!numFila || numFila < 1 || !tablaIdsEnUso.includes(numFila)) {
+        //         alert("Número de fila inválido o inexistente.");
+        //         return;
+        //     }
+    
+        //     // Elimino dicha fila que se quiere eliminar
+        //     $("#tr_" + numFila).remove();
+    
+        //     // Localizo la posición del ID en el array tablaIdsEnUso y lo marco como null.
+        //     // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
+        //     let posicionIdEliminar = tablaIdsEnUso.indexOf(numFila);
+        //     tablaIdsEnUso[posicionIdEliminar] = null;
+
+        //     contadorEdades--;
+        //     // LLamo a calcula edades para mostrar por consola lo relacionado
+        //     calculaEdades(datos.years, contadorEdades);
+    
+        //     console.log("IDs en uso tras eliminación:", tablaIdsEnUso); 
+        // }
+
+        // function calculaEdades(edad, contador){
+
+        //     let media;
+        //     let mayor = -1;
+        //     let menor = 200;
+
+        //     suma = suma + edad;
+        //     media = suma / contador;
+
+        //     if (edad > mayor) {
+        //         mayor = edad;
+        //     }
+            
+        //     if (edad < menor){
+        //         menor = edad;
+        //     }
+
+        //     console.log(suma)
+        //     console.log(media)
+        //     console.log(mayor)
+        //     console.log(menor)
+        // }
+
+        // function eliminarFila(idFila){
+            
+        //     // Elimino dicha fila que se quiere eliminar
+        //     $(idFila).remove();
+    
+        //     // Localizo la posición del ID en el array tablaIdsEnUso y lo marco como null.
+        //     // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
+        //     let posicionIdEliminar = tablaIdsEnUso.indexOf(idFila);
+        //     tablaIdsEnUso[posicionIdEliminar] = null;
+        // }
+
+        // function meterFila(nuevaFila){
+
+        //     tablaFilas.push(nuevaFila);
+
+        //     generaTabla();
+        // }
+
+        // function generaTabla(){
+
+
+
+        //     const $tablaBody = $("#tabla-body");
+            
+
+        //     $tablaBody.html("");
+
+        //     for(let i = 0; i < tablaFilas.length; i++){
+        //         $tablaBody.append(tablaFilas[i]);
+        //     }
+        // }
+
+        /*SCRIPT COMO EL QUE ESTÁ ARRIBA PERO ORGANIZADO POR GPT*/ 
+        /*ACLARAR QUE LO UNICO QUE HA HECHO ES ORGANIZARME LO ANTERIOR, TODO LO NUEVO LO VOY AÑADIENDO YO EMPEZANDO CON LOS CHEACKBOX CONTABILIZADOS*/
+
+        // Contador para asignar IDs 
+        let contadorIdFilas = 1; // Inicializa un contador para asignar IDs únicos a las filas creadas en la tabla.
+        let tablaIdsEnUso = []; // Array para llevar registro de los IDs en uso
+        let filas = []; // Array que almacena las filas actuales
+
         function enviar() {
-    
-            let name = $("#inpName").val();
-            let lastName = $("#inpLName").val();
-            let years = parseInt($("#inpYears").val(), 10);
-            let city = $("#inpCity").val();
-            let hobbies = $('input[name="hobbiesInput"]')
-                            .filter(':checked')
-                            .map(function () {
-                                    return $(this).val();
-                                }
-                            ).get();
+            const datos = obtenerDatosFormulario(); // Obtén los datos ingresados en el formulario
+            if (!validarDatosFormulario(datos)) return; // Valida los datos
 
-            if (!name || !lastName || !years || !city) {
-                alert("Por favor rellena todos tus datos.");
-                return;
+            const idFila = asignarIdFila(); // Asigna un ID único dinámico reutilizable
+            datos.id = idFila; // Añade el ID al objeto datos
+            filas.push(datos); // Añade los datos al array de filas
+
+            generarTabla(); // Genera la tabla con los datos actualizados
+            calcularEstadisticas(); // Calcula las estadísticas
+        }
+
+        function asignarIdFila() {
+            const indiceLibre = tablaIdsEnUso.indexOf(null); // Busca un ID disponible (marcado como null)
+            if (indiceLibre !== -1) {
+                tablaIdsEnUso[indiceLibre] = indiceLibre + 1; // Reutiliza el ID libre
+                return indiceLibre + 1;
             }
-    
-            alert("Datos enviados correctamente.");
+            tablaIdsEnUso.push(contadorIdFilas); // Si no hay IDs libres, usa el siguiente del contador
+            return contadorIdFilas++;
+        }
 
-            alert(hobbies)
-    
-            let datos = { 
-                name, 
-                lastName, 
-                years, 
-                city, 
-                hobbies,
-            };
+        function generarTabla() {
+            const $tablaBody = $("#tabla-body"); // Selecciona el cuerpo de la tabla
+            $tablaBody.empty(); // Elimina el contenido actual de la tabla
 
-            $('input[name="hobbiesInput"]:checked').each(function() {
-                var textoSeleccionado = $(this).siblings('label').text().trim();
-                datos.hobbies.push(textoSeleccionado);
+            filas.forEach((fila) => {
+                $tablaBody.append(generarTR(fila)); // Añade cada fila con generarTR
             });
+        }
 
-            // const $tablaBody = $("#tabla-body");
-    
-            // Variable donde almacenare el ID que voy a usar para asignar a la fila actual.
-            let idFila;
-            
-            // Antes de asignar un nuevo ID, reviso si tengo IDs eliminados que pueda reutilizar
-            if (tablaIdsEnUso.includes(null)) {
-                // Encuentro el primer ID eliminado (marcado como null) y lo reutilizo.
-                idFila = tablaIdsEnUso.findIndex(id => id === null) + 1;
-                tablaIdsEnUso[idFila - 1] = idFila; 
-                // Actualizo el array para indicar que este ID ya está en uso de nuevo.
-            } else {
-                // Si no hay IDs eliminados, utilizo el contador para asignar un nuevo ID.
-                idFila = contadorIdFilas;
-                tablaIdsEnUso.push(idFila); 
-                // Registro este nuevo ID como "en uso".
-                contadorIdFilas++;
-            }
-            
-            contadorEdades++;
-            // LLamo a calcula edades para mostrar por consola lo relacionado
-            calculaEdades(datos.years, contadorEdades);
-    
-            const nuevaFila = `
-                <tr id="tr_${idFila}" onclick="eliminarFila(tr_${idFila})" type="button">
-                    <td>${idFila}</td>
+        function generarTR(datos) {
+            return `
+                <tr id="tr_${datos.id}" onclick="eliminarFila(${datos.id})">
+                    <td>${datos.id}</td>
                     <td>${datos.name}</td>
                     <td>${datos.lastName}</td>
                     <td>${datos.years}</td>
-                    <td>${datos.hobbies}</td>
+                    <td>${datos.hobbies.join(", ")}</td>
                     <td>${datos.city}</td>
-                </tr>
-                `
-            ;
-            // $tablaBody.append(nuevaFila);
-            
-            meterFila(nuevaFila);
-    
-            console.log("IDs en uso:", tablaIdsEnUso); 
-        }
-    
-        function eliminar() {
-    
-            // Obtengo el ID de la fila que se desea eliminar y lo convierto a un número
-            // Ya que si no pongo el parseInt me lo recoje como String y no se porque...
-            let numFila = parseInt($("#inpFila").val(), 10); //Pongo 10 para que se iterprete el numero como base decimal...
-    
-            // Verifico si el número de fila ingresado es válido:
-            // - No debe estar vacío.
-            // - Debe ser mayor o igual a 1.
-            // - Debe estar presente en el array tablaIdsEnUso.
-            if (!numFila || numFila < 1 || !tablaIdsEnUso.includes(numFila)) {
-                alert("Número de fila inválido o inexistente.");
-                return;
-            }
-    
-            // Elimino dicha fila que se quiere eliminar
-            $("#tr_" + numFila).remove();
-    
-            // Localizo la posición del ID en el array tablaIdsEnUso y lo marco como null.
-            // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
-            let posicionIdEliminar = tablaIdsEnUso.indexOf(numFila);
-            tablaIdsEnUso[posicionIdEliminar] = null;
-
-            contadorEdades--;
-            // LLamo a calcula edades para mostrar por consola lo relacionado
-            calculaEdades(datos.years, contadorEdades);
-    
-            console.log("IDs en uso tras eliminación:", tablaIdsEnUso); 
+                </tr>`;
         }
 
-        function calculaEdades(edad, contador){
-
-            let media;
-            let mayor = -1;
-            let menor = 200;
-
-            suma = suma + edad;
-            media = suma / contador;
-
-            if (edad > mayor) {
-                mayor = edad;
-            }
-            
-            if (edad < menor){
-                menor = edad;
-            }
-
-            console.log(suma)
-            console.log(media)
-            console.log(mayor)
-            console.log(menor)
-        }
-
-        function eliminarFila(idFila){
-            
-            // Elimino dicha fila que se quiere eliminar
-            $(idFila).remove();
-    
-            // Localizo la posición del ID en el array tablaIdsEnUso y lo marco como null.
-            // Esto me va a servir para que la posicion este indicada que el ID está disponible para ser reutilizado.
-            let posicionIdEliminar = tablaIdsEnUso.indexOf(idFila);
-            tablaIdsEnUso[posicionIdEliminar] = null;
-        }
-
-        function meterFila(nuevaFila){
-
-            tablaFilas.push(nuevaFila);
-
-            generaTabla();
-        }
-
-        function generaTabla(){
-
-
-
-            const $tablaBody = $("#tabla-body");
-            
-
-            $tablaBody.html("");
-
-            for(let i = 0; i < tablaFilas.length; i++){
-                $tablaBody.append(tablaFilas[i]);
+        function eliminar(id) {
+            // Encuentra el índice de la fila con el ID correspondiente
+            const index = filas.findIndex(fila => fila.id === id);
+            if (index !== -1) {
+                filas.splice(index, 1); // Elimina la fila del array
+                tablaIdsEnUso[id - 1] = null; // Marca el ID como disponible en tablaIdsEnUso
+                generarTabla(); // Regenera la tabla con los datos restantes
+                calcularEstadisticas(); // Actualiza las estadísticas
             }
         }
+
+        function eliminarFila(idFila) {
+            eliminar(idFila); // Llama a la función eliminar
+        }
+
+        function calcularEstadisticas() {
+            const edades = filas.map(fila => fila.years); // Extrae las edades de las filas
+
+            const suma = edades.reduce((acc, edad) => acc + edad, 0); // Suma de las edades
+            const media = edades.length > 0 ? suma / edades.length : 0; // Promedio de edades
+            const mayor = edades.length > 0 ? Math.max(...edades) : 0; // Edad máxima
+            const menor = edades.length > 0 ? Math.min(...edades) : 0; // Edad mínima
+
+            // Actualiza las estadísticas en el DOM
+            $('#suma').text(suma);
+            $('#media').text(media);
+            $('#mayor').text(mayor);
+            $('#menor').text(menor);
+        }
+
+        function obtenerDatosFormulario() {
+            const name = $("#inpName").val();
+            const lastName = $("#inpLName").val();
+            const years = parseInt($("#inpYears").val(), 10);
+            const city = $("#inpCity").val();
+            const hobbies = $('input[name="hobbiesInput"]:checked').map((_, el) => $(el).val()).get();
+            return { name, lastName, years, city, hobbies };
+        }
+
+        function validarDatosFormulario(datos) {
+            if (!datos.name || !datos.lastName || !datos.years || !datos.city) {
+                alert("Por favor rellena todos tus datos.");
+                return false;
+            }
+            return true;
+        }
+
+        // Esta acción comprueba si se ha pulsado un checkbox (la que viene en los apuntes...)
+        $('input[name="hobbiesInput"]').on('change', function () {
+            // Todos los checkboxes seleccionados 
+            const selectedCheckboxes = $('input[name="hobbiesInput"]:checked'); // Contiene una coleccion de elementos del DOM que coincidan (solo contiene cheackbox activados).
+            
+
+            if (selectedCheckboxes.length === 3) {
+                // Si hay exactamente 3 seleccionados, deshabilito el resto
+                $('input[name="hobbiesInput"]').not(':checked').prop('disabled', true);
+            } else {
+                // Si hay menos de 3 seleccionados, habilito todos
+                $('input[name="hobbiesInput"]').prop('disabled', false);
+            }
+        });
+
     </script>
 </body>
 </html>
