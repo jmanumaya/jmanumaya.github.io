@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .recibir{
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: rgb(54, 42, 165);
+        }
+
+        .recibir:hover{
+            background-color: rgb(111, 105, 168);
+        }
+
+        .envio{
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: rgb(31, 149, 153);
+        }
+
+        .envio:hover{
+            background-color: rgb(119, 150, 151);
+        }
+
+    </style>
+
+</head>
+<body>
+    <button type="submit" id="btnEJS" class="envio">Enviar Con JS</button>
+    <button type="submit" id="btnEAJAX" class="envio">Enviar Con AJAX</button>
+    <button type="submit" id="btnEJQ" class="envio">Enviar Con JQ</button>
+    <button type="submit" id="btnRJS" class="recibir">Recibir Con JS</button>
+    <button type="submit" id="btnRAJAX" class="recibir">Recibir Con AJAX</button>
+    <button type="submit" id="btnRJQ" class="recibir">Recibir Con JQ</button>
+<script>
+
+    document.getElementById("#btnEJS").addEventListener("click", function(){
+        solicitudJS();   
+    });
+    document.getElementById("#btnEAJAX").addEventListener("click", function(){
+        solicitudAJAX();   
+    });
+    document.getElementById("#btnEJQ").addEventListener("click", function(){
+        solicitudJQ();   
+    });
+    document.getElementById("#btnRJS").addEventListener("click", function(){
+        envioJS();   
+    });
+    document.getElementById("#btnRAJAX").addEventListener("click", function(){
+        envioAJAX();   
+    });
+    document.getElementById("#btnRJQ").addEventListener("click", function(){
+        envioJQ();   
+    });
+
+    function solicitudJS(){
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://jsonplaceholder.typicode.com/users");
+        xhr.responseType = "json"; // Si no se indica, necesitará parseo
+
+        xhr.onload = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                const data = xhr.response;
+                console.log(data);
+            } else {
+                console.log("Error: ${xhr.status}");
+            }
+        };
+        xhr.send();
+    }
+
+    function solicitudAJAX() { 
+        $.ajax({ 
+        url: "https://jsonplaceholder.typicode.com/users", 
+        method: "GET", 
+        dataType: "json", // Convierte la respuesta a objeto JSON 
+        success: function(data) { //200 o 201
+            console.log(data); 
+        }, 
+        error: function(xhr, status, error) { 
+            console.log(`Error: ${xhr.status} - ${error}`); 
+        } 
+        });
+    }
+
+    function solicitudJQ() {
+        $.get("https://jsonplaceholder.typicode.com/users")
+            .done(function(data) {
+                console.log(data);
+            })
+            .fail(function(xhr, status, error) {
+                console.log(`Error: ${xhr.status} - ${error}`);
+        });
+    }
+
+    function envioJS(){
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://jsonplaceholder.typicode.com/posts");
+        xhr.responseType = "json"; // Si no se indica, necesitará parseo
+
+        xhr.onload = function() {
+            if (xhr.readyState == 4 && xhr.status == 201) { // 200 || 201
+                console.log(xhr.response);
+            } else {
+                console.log("Error: ${xhr.status}");
+            }
+        };
+        xhr.send(JSON.stringify(objeto_js));
+    }
+
+    function envioAJAX(){
+        $.ajax({
+            url: "https://jsonplaceholder.typicode.com/posts",
+            method: "POST",
+            data: JSON.stringify(objeto_js),
+            contentType: "application/json", // Especifica el tipo de contenido
+            dataType: "json", // La respuesta será interpretada como JSON
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.log(`Error: ${xhr.status} - ${error}`);
+            }
+        });
+    }
+
+    function envioJQ(){
+        $.post("https://jsonplaceholder.typicode.com/posts", 
+            JSON.stringify(objeto_js), 
+            function(response) {
+                console.log(response);
+            },
+            "json"
+        )
+        .fail(function(xhr, status, error) {
+            console.log(`Error: ${xhr.status} - ${error}`);
+        });
+    }
+
+</script>
+</body>
+</html>
