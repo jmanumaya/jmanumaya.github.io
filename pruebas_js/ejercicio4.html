@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Ejercicio 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+    
+        header {
+            text-align: center;
+            padding: 20px 20px;
+            background-color: #3498db63;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+    
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            padding: 20px;
+        }
+    
+        h1 {
+            color: #353a4b;
+            margin-top: 20px;
+        }
+    
+        h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+    
+        /* Estructura para colocar los elementos en fila */
+        .content-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
+        }
+    
+        /* Bloques independientes para los formularios */
+        .bloque {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            flex-shrink: 0;
+            margin-left: -70px;
+            margin-right: -70px;
+        }
+    
+        .bloque-sticky {
+            position: sticky;
+            top: 150px;
+            z-index: 999;
+            background: #ecf0f1;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bloque-elimina{
+            margin-bottom: 30px;
+        }
+    
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        #div_checkbox {
+            display: contents;
+            flex-wrap: wrap;
+            gap: 0px; /* Espacio entre los checkboxes */
+        }
+
+        #div_checkbox input {
+            margin-bottom: 0px; /* Espacio debajo de cada checkbox, puedes ajustarlo */
+        }
+    
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+    
+        form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+    
+        form button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        form button:hover {
+            background-color: #2980b9;
+        }
+    
+        /* Bloque de la tabla */
+        .tabla-contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            max-width: 800px;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            table-layout: fixed;
+        }
+    
+        th, td {
+            padding: 15px;
+            text-align: center;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    
+        td {
+            border-bottom: 1px solid #ecf0f1;
+            white-space: nowrap;
+        }
+    
+        tr:hover td {
+            background-color: #f5f5f5;
+        }
+    
+        /* Media Queries para ajustar el diseño */
+        @media (max-width: 1200px) {
+            .content-layout {
+                flex-wrap: wrap; /* Permite que los bloques se apilen en pantallas más pequeñas */
+                gap: 20px;
+            }
+    
+            .tabla-contenedor {
+                max-width: 100%; /* La tabla ocupa todo el espacio disponible */
+            }
+    
+            .bloque {
+                width: 100%; /* Los formularios ocupan todo el ancho */
+            }
+        }
+    
+        @media (max-width: 768px) {
+            .content-layout {
+                flex-direction: column; /* Los bloques se apilan en pantallas más pequeñas */
+                gap: 20px;
+            }
+    
+            .bloque {
+                position: static; /* Elimina el sticky en pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label for="descripcion">Descripcion</label>
+        <input type="text" id="inpDescripcion" placeholder="Escribe una descripcion">
+        <label for="proveedor">idProveedor</label>
+        <input type="text" id="inpIDProveedor" placeholder="Escribe el id del proveedor">
+        <label for="precio">Precio</label>
+        <input type="number" name="precioInput" id="inpPrecio" placeholder="Escribe un precio">
+        <button type="button" class="enviar" id="btn_enviar" onclick="enviar()">Enviar</button>
+    </form>
+    <!-- Bloque de la tabla -->
+    <div class="tabla-contenedor">
+        <h2>Consulta los Registros</h2>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descripción</th>
+                    <th>IDProveedor</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bloque del formulario para eliminar registros -->
+    <div class="bloque bloque-sticky">
+        <div class="bloque-elimina">
+            <h2>Elimina Algún Registro</h2>
+            <form>
+                <label for="EliminaTitle">Indica el ID de la persona a eliminar</label>
+                <input type="number" id="inpFila" placeholder="Indica el ID">
+                <button type="button" class="eliminar" id="btn_eliminar" onclick="eliminar()">Eliminar Persona</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+    let contadorIdFilas = 1;
+    let tablaIdsEnUso = [];
+   
+
+    function enviar() {
+    const datos = obtenerDatosFormulario();
+    if (!validarDatosFormulario(datos)) return;
+
+    const idFila = asignarIdFila();
+    datos.id = idFila;
+    enviarDatosServidor(datos);
+    }
+
+    function enviarDatosServidor(datos) {
+    $.ajax({
+        url: "https://lm.iesnervion.es/reto4.php",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(datos),
+        success: function (respuesta) {
+            console.log("Respuesta del servidor:", respuesta);
+            filas = respuesta.lista;
+            generoRespuesta(respuesta.error);
+            generarTabla(filas);
+            // console.log(respuesta.lista);
+            // console.log(respuesta.calculos);
+            // console.log(respuesta.calculos.suma, respuesta.calculos.media, respuesta.calculos.max, respuesta.calculos.min);
+        },
+        error: function () {
+            alert("Error al enviar los datos al servidor.");
+        }
+    });
+    }
+
+    function asignarIdFila() {
+    const indiceLibre = tablaIdsEnUso.indexOf(null);
+    if (indiceLibre !== -1) {
+        tablaIdsEnUso[indiceLibre] = indiceLibre + 1;
+        return indiceLibre + 1;
+    }
+    tablaIdsEnUso.push(contadorIdFilas);
+    return contadorIdFilas++;
+    }
+
+    function generarTabla(lista) {
+    const $tablaBody = $("#tabla-body");
+    $tablaBody.empty();
+    lista.forEach((fila) => {
+        $tablaBody.append(generarTR(fila));
+    });
+    }
+
+    function generarTR(datos) {
+    return `
+        <tr id="tr_${datos.id}" onclick="eliminarFila(${datos.id})">
+            <td>${datos.id}</td>
+            <td>${datos.descripcion}</td>
+            <td>${datos.idProveedor}</td>
+            <td>${datos.precio}</td>
+        </tr>`;
+    }
+
+    function eliminar(id) {
+    const index = filas.findIndex(fila => fila.id === id);
+    if (index !== -1) {
+        filas.splice(index, 1);
+        tablaIdsEnUso[id - 1] = null;
+        enviarDatosServidor();
+    }
+    }
+
+    function eliminarFila(idFila) {
+    eliminar(idFila);
+    }
+
+    function obtenerDatosFormulario() {
+    const descripcion = $("#inpDescripcion").val();
+    const idProveedor = $("#inpIDProveedor").val();
+    const precio = parseInt($("#inpPrecio").val(), 10);
+    return { descripcion, idProveedor, precio };
+    }
+
+    function validarDatosFormulario(datos) {
+    if (!datos.descripcion || !datos.idProveedor || !datos.precio) {
+        alert("Por favor rellena todos tus datos.");
+        return false;
+    }
+    return true;
+    }
+
+    $('input[name="hobbiesInput"]').on('change', function () {
+    // Todos los checkboxes seleccionados 
+    const selectedCheckboxes = $('input[name="hobbiesInput"]:checked'); // Contiene una coleccion de elementos del DOM que coincidan (solo contiene cheackbox activados).
+
+
+    if (selectedCheckboxes.length === 3) {
+        // Si hay exactamente 3 seleccionados, deshabilito el resto
+        $('input[name="hobbiesInput"]').not(':checked').prop('disabled', true);
+    } else {
+        // Si hay menos de 3 seleccionados, habilito todos
+        $('input[name="hobbiesInput"]').prop('disabled', false);
+    }
+    });
+
+    function generoRespuesta(respuesta){
+
+        if(respuesta == null){
+            alert("Ultimos datos generados correctamente")
+        } else {
+            alert(respuesta)
+        }
+
+    }
+
+
+
+    </script>
+</body>
+</html>
