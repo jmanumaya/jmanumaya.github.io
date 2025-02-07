@@ -6,6 +6,7 @@
     <title>Tabla Dinámica con jQuery</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
@@ -17,10 +18,29 @@
         header {
             text-align: center;
             padding: 20px 20px;
-            background-color: #3498db63;
+            background-color: #97c1dd;
             position: sticky;
             top: 0;
             z-index: 1000;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #97c1dd;
+            padding: 30px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            color: #333;
         }
     
         .container {
@@ -158,6 +178,8 @@
             color: white;
             font-weight: bold;
             text-transform: uppercase;
+            position: sticky;
+            top: 119px;
         }
     
         td {
@@ -282,7 +304,10 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    <footer>
+        <a href="../../../../index.html">Menú Principal</a>
+    </footer>
     <script>
 
         let contadorIdFilas = 1;
@@ -404,9 +429,6 @@
                 $('input[name="hobbiesInput"]').prop('disabled', false);
             }
         });
-
-
-        
     </script>
 </body>
 </html>

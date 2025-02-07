@@ -110,7 +110,7 @@ h3{
 
 #tm5:hover {
     transform: scale(1.05);
-    height: 118px; /* Ajustar a la altura requerida */
+    height: 226px; /* Ajustar a la altura requerida */
 }
 
 #tm5:hover #tm5c {
