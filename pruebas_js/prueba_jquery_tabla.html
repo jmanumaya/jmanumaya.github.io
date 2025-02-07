@@ -301,6 +301,9 @@
         }
 
         function enviarDatosServidor() {
+
+            console.log(filas)
+
             $.ajax({
                 url: "https://lm.iesnervion.es/eco.php",
                 method: "POST",
@@ -350,11 +353,11 @@
             return `
                 <tr id="tr_${datos.id}" onclick="eliminarFila(${datos.id})">
                     <td>${datos.id}</td>
-                    <td>${datos.name}</td>
-                    <td>${datos.lastName}</td>
-                    <td>${datos.years}</td>
+                    <td>${datos.nombre}</td>
+                    <td>${datos.apellidos}</td>
+                    <td>${datos.edad}</td>
                     <td>${datos.hobbies.join(", ")}</td>
-                    <td>${datos.city}</td>
+                    <td>${datos.ciudad}</td>
                 </tr>`;
         }
 
@@ -372,16 +375,16 @@
         }
 
         function obtenerDatosFormulario() {
-            const name = $("#inpName").val();
-            const lastName = $("#inpLName").val();
-            const years = parseInt($("#inpYears").val(), 10);
-            const city = $("#inpCity").val();
+            const nombre = $("#inpName").val();
+            const apellidos = $("#inpLName").val();
+            const edad = parseInt($("#inpYears").val(), 10);
+            const ciudad = $("#inpCity").val();
             const hobbies = $('input[name="hobbiesInput"]:checked').map((_, el) => $(el).val()).get();
-            return { name, lastName, years, city, hobbies };
+            return { nombre, apellidos, edad, ciudad, hobbies };
         }
 
         function validarDatosFormulario(datos) {
-            if (!datos.name || !datos.lastName || !datos.years || !datos.city) {
+            if (!datos.nombre || !datos.apellidos || !datos.edad || !datos.ciudad) {
                 alert("Por favor rellena todos tus datos.");
                 return false;
             }
