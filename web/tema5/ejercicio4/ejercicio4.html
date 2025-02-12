@@ -272,6 +272,23 @@
     });
     }
 
+    function borrarDatosServidor(id) {
+    $.ajax({
+        url: `https://lm.iesnervion.es/reto4.php?id=${id}`,
+        method: "DELETE",
+        contentType: "application/json",
+        success: function (respuesta) {
+            console.log("Respuesta del servidor:", respuesta);
+            filas = respuesta.lista;
+            generoRespuesta(respuesta.error);
+            generarTabla(filas);
+        },
+        error: function () {
+            alert("Error al enviar los datos al servidor.");
+        }
+    });
+    }
+
     function generarTabla(lista) {
     const $tablaBody = $("#tabla-body");
     $tablaBody.empty();
@@ -282,13 +299,15 @@
 
     function generarTR(datos) {
     return `
-        <tr id="tr_${datos.id}" onclick="eliminarFila(${datos.id})">
+        <tr id="tr_${datos.id}" onclick="borrarDatosServidor(${datos.id})">
             <td>${datos.id}</td>
             <td>${datos.descripcion}</td>
             <td>${datos.idProveedor}</td>
             <td>${datos.precio}</td>
         </tr>`;
     }
+
+    func
 
     function obtenerDatosFormulario() {
     const descripcion = $("#inpDescripcion").val();
