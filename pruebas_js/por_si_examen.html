@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla Examen</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace para estilos externos -->
+    <script src="script.js" defer></script> <!-- Enlace para script externo -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Usuarios</h1>
+        <form id="formulario">
+            <label>Nombre: <input type="text" id="nombre"></label>
+            <label>Apellidos: <input type="text" id="apellidos"></label>
+            <label>Edad: <input type="number" id="edad"></label>
+            <label>Ciudad: <input type="text" id="ciudad"></label>
+            <button type="button" onclick="agregarUsuario()">Agregar</button>
+        </form>
+        
+        <h2>Lista de Usuarios</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Edad</th>
+                    <th>Ciudad</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let id = 1;
+        
+        function agregarUsuario() {
+            let nombre = $("#nombre").val().trim();
+            let apellidos = $("#apellidos").val().trim();
+            let edad = $("#edad").val().trim();
+            let ciudad = $("#ciudad").val().trim();
+            
+            if (!nombre || !apellidos || !edad || !ciudad) {
+                alert("Todos los campos son obligatorios.");
+                return;
+            }
+            
+            let fila = `<tr id="fila_${id}">
+                            <td>${id}</td>
+                            <td>${nombre}</td>
+                            <td>${apellidos}</td>
+                            <td>${edad}</td>
+                            <td>${ciudad}</td>
+                            <td><button onclick="eliminarUsuario(${id})">❌</button></td>
+                        </tr>`;
+            
+            $("#tabla-body").append(fila);
+            id++;
+            $("#formulario")[0].reset();
+        }
+        
+        function eliminarUsuario(id) {
+            $(`#fila_${id}`).remove();
+        }
+    </script>
+</body>
+</html>
