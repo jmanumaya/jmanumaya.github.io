@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Ejercicio Examen</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #82d377;
+            z-index: 1000;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #82d377;
+            padding: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            padding: 20px;
+            flex: 1;
+        }
+
+        h1 {
+            color: #353a4b;
+            margin-top: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
+        .content-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
+            margin-bottom: 20PX;
+            flex-wrap: wrap;
+        }
+
+        .bloque {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .bloque-sticky {
+            position: sticky;
+            top: 150px;
+            z-index: 1000;
+            background: #ecf0f1;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #aed6a9;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #82d377;
+        }
+
+        .chat-contenedor {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            max-width: 800px;
+        }
+
+        @media (max-width: 1200px) {
+            .content-layout {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .tabla-contenedor {
+                max-width: 100%;
+            }
+
+            .bloque {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-layout {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .bloque {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>EL CHAT</h1>
+        <h2>Jose Manuel Maya Hidalgo</h2>
+    </header>
+    <div class="container">
+        <div class="content-layout">
+            <!-- Bloque del formulario para añadir registros -->
+            <div class="bloque bloque-sticky">
+                <h2>Añade Algún Registro</h2>
+                <form>
+                    <label for="importNombre">Introduce tu Nombre</label>
+                    <input type="text" name="importNombre" id="inpNombre" placeholder="Escribe tu Nombre" required>
+                    <label for="importApellidos">Introduce tus Apellidos</label>
+                    <input type="text" name="importApellidos" id="inpApellidos" placeholder="Escribe tus Apellidos" required>
+                    <label for="importMesaje">Mensaje</label>
+                    <input type="text" name="importMesaje" id="inpMensaje" placeholder="Escribe el Mensaje">
+                    <button type="button" class="enviar" id="btn_enviar" onclick="enviar()">Enviar</button>
+                </form>
+            </div>
+
+            <div id="muestraErrores">
+
+            </div>
+
+            <!-- Bloque de la tabla -->
+            <div class="chat-contenedor">
+                <h2>CHAT</h2>
+                <div id="conversacion">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Examen de JS</p>
+    </footer>
+
+    <script>
+
+    // Metodo enviar que se activa cuando se pulsa el boton enviar del formulario
+    function enviar() {
+        // Recojo los datos del formulario y los guardo en datos como objeto.
+        const datos = obtenerDatosFormulario();
+        // Valido que los datos sean validos y si no es asi no continuo con el proceso
+        if (!validarDatosFormulario(datos)) return;
+
+        // Envio los datos al servidor
+        enviarDatosServidor(datos);
+    }
+
+    // Metodo que obtiene los datos del formulario usando jquery
+    function obtenerDatosFormulario() {
+        // Asigno una id inicial que luego modificaré con la que me den
+        const id = 0;
+        // Recojo en nombre, lo introducido en el input del formulario correspondiente al nombre.
+        const nombre = $("#inpNombre").val();
+        // Recojo en apellidos, lo introducido en el input del formulario correspondiente a los apellidos.
+        const apellidos = $("#inpApellidos").val();
+        // Recojo en mesajes, lo introducido en el input del formulario correspondiente al mensaje.
+        const mensaje = $("#inpMensaje").val();
+    // Devuelvo como objeto los campos rellenados.
+    return { nombre, apellidos, mensaje, id };
+    }
+
+    // Metodo para validar los datos del formulario (le paso datos que lleva los datos recogidos)
+    function validarDatosFormulario(datos) {
+        // Compuebo que nombre y apellidos esten rellenados, si no lo estan, muestro una alerta que te avisa de ello y 
+        // devuelve false para que luego no se siga con el proceso de envío
+        if (!datos.nombre || !datos.apellidos) {
+            alert("Revisa si has introducido tu nombre y apellidos");
+            return false;
+        }
+    // Si estan rellenados devuelve true indicando que todo está correcto
+    return true;
+    }
+
+    // Metodo para enviar los datos al servidor donde le paso el objeto_js ya formado y verificado.
+    function enviarDatosServidor(objeto_js) {
+        // hago el envio através de ajax
+        $.ajax({
+            // URL Del servidor
+            url: "https://Lm.iesnervion.es/chat.php",
+            // Uso el metodo POST para los envios
+            method: "POST",
+            // serializo el objeto para poder enviarlo serializado
+            data: JSON.stringify(objeto_js),
+            // Especifico el tipo de contenido
+            contentType: "application/json",
+            // Especifico que la respuesta será interpretada como JSON
+            dataType: "json",
+            // Si todo ha salido bien, recojo la data y realizo lo siguiente en el metodo
+            success: function(data) {
+                
+                // Me guardo el div muestraErrores en una variable para usarlo luego varias veces
+                let $muestraErrores = $('#muestraErrores');
+                // Compruebo si me ha traido algún error de vuelta para mostrarlo en la página dentro de un muestraErrores como <p>
+                if(data.errores != null){
+                    $muestraErrores.append(`<p> ¡Ha ocurrido algo!: ${data.errores} </p>`)
+                }
+
+                // Bloqueo los campos de input de nombre y apellidos una vez que se ha hecho el primer envío
+                $('#inpNombre').attr('disabled','disabled');
+                $('#inpApellidos').attr('disabled','disabled');
+                
+                // Asigno al campo id, el id que me devuelve el servidor
+                objeto_js.id = data.usuario.id;
+
+                // Limpio el muestra errores
+                $muestraErrores.empty();
+                
+                // Esto simplemente era para comprobar que me devolvía data.
+                console.log(data)
+                
+                // Llamo a la funcion creaChat pasandole la data que recibo para formar el chat en pantalla
+                creaChat(data);
+            },
+            // Cualquier error de conexion y demas lo muestra en consola
+            error: function(xhr, status, error) {
+                console.log(`Error: ${xhr.status} - ${error}`);
+            }
+        });
+    }
+
+    // Metodo creaChat que va a formar el chat en pantalla con la data recivida
+    function creaChat(data){
+
+        // Consigo el div donde se contendrá el chat
+        let $divConversacion =  $('#conversacion');
+
+        // Lo limpio previamente para luego mostrar todo el chat
+        $divConversacion.empty();
+
+        // Simplemente para saber que me devolvía lo siguiente mostrandolo en consola
+        console.log(data.conversacion[4].timestamp);
+
+        // Con este forEach voy recorriendo los mensajes que estan dentro del array data.conversacion y los voy mostrando en $divConversacion mediante un <p>
+        data.conversacion.forEach((mensaje) => {
+            $divConversacion.append(`<p>${mensaje.timestamp} - ${mensaje.nombre} ${mensaje.apellidos}: ${mensaje.mensaje}</p>`);;
+        });
+    }
+
+    </script>
+</body>
+</html>
