@@ -125,6 +125,38 @@ h3{
     visibility: visible;
 }
 
+/* Estilos actualizados para el Tema 6 */
+#tm6 {
+    background-color: rgb(69, 123, 224);
+    height: 70px;
+    transition: transform 0.3s ease, height 0.3s ease;
+}
+
+#tm6c {
+    background-color: rgb(121, 158, 226);
+    padding-bottom: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#tm6:hover {
+    transform: scale(1.05);
+    height: 118px; /* Ajustar a la altura requerida */
+}
+
+#tm6:hover #tm6c {
+    opacity: 1;
+    visibility: visible;
+}
+
+#tm6c:hover {
+    background-color: rgb(121, 158, 226);
+    padding-bottom: 10px;
+    opacity: 1;
+    visibility: visible;
+}
+
 /* EJERCICIOS DE CASA ESTILO */
  
 #pcs{
