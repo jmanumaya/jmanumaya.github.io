@@ -21,7 +21,7 @@ class Vista {
             <td>${datos.id}</td>
             <td>${datos.descripcion}</td>
             <td>${datos.fecha}</td>
-            <td>${datos.estado}</td>
+            <td><form><input type="checkbox" id="${datos.id}" onchange="controlador.eliminarTarea(${datos.id}, this.checked)"></form></td>
         `;
         return tr;
     }

@@ -5,6 +5,7 @@ class Controlador {
         this.creadorFila = new CreadorFilas();
         this.modelo = new Modelo();
         this.vista = new Vista();
+
         this.btnCrear = document.getElementById('btn_enviar').addEventListener('click', () => {
 
             this.descripcion = $('#inpDescripcion').val();
@@ -27,6 +28,14 @@ class Controlador {
 
         this.modelo.setTarea(fila);
 
+    }
+
+    eliminarTarea(id, checked){
+
+        if(checked){
+            this.modelo.eliminaTarea(id)
+            this.actualizaVista();
+        }
     }
 
     actualizaVista(){
