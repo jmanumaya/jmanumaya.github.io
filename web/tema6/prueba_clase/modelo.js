@@ -1,25 +1,19 @@
 class Modelo {
-    constructor(controlador) {
-
-        this.controlador = controlador;
-
+    constructor() {
         this.tareas = [];
     }
 
-    setTarea(tarea){
-
+    setTarea(tarea) {
         this.tareas.push(tarea);
     }
 
-    getTareas(){
+    getTareas() {
         return this.tareas;
     }
 
-    eliminaTarea(id){
+    eliminaTarea(id) {
 
-        const index = this.tareas.findIndex(tarea => tarea[0] === id);
-            if (index !== -1) {
-                this.tareas.splice(index, 1);
-            }
+        this.tareas = this.tareas.filter(tarea => tarea[0] !== id);
+        
     }
 }

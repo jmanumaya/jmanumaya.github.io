@@ -22,7 +22,7 @@
         header {
             text-align: center;
             padding: 20px;
-            background-color: #d37777;
+            background-color: #c1ace9;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -30,7 +30,7 @@
 
         footer {
             text-align: center;
-            background-color: #d37777;
+            background-color: #c1ace9;
             padding: 20px;
             font-size: 14px;
             color: #333;
@@ -120,7 +120,7 @@
         }
 
         form button {
-            background-color: #d37777;
+            background-color: #9d81d3;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -131,7 +131,22 @@
         }
 
         form button:hover {
-            background-color: #bb5454;
+            background-color: #c1ace9;
+        }
+
+        #btn-elimina{
+            background-color: #d38199;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        #btn-elimina:hover{
+            background-color: #bd637e;
         }
 
         .tabla-contenedor {
@@ -162,7 +177,7 @@
         }
 
         th {
-            background-color: #cf8585;
+            background-color: #c1ace9;;
             color: white;
             font-weight: bold;
             text-transform: uppercase;
@@ -225,11 +240,7 @@
                 <h2>Consulta las Tareas</h2>
                 <table id="tabla">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Descripcion</th>
-                            <th>Fecha</th>
-                            <th>Estado</th>
+                        <tr id="tr-cabecera">     
                         </tr>
                     </thead>
                     <tbody id="tabla-body">
@@ -243,9 +254,9 @@
     </footer>
     <script>
         // Instanciar el modelo, vista y controlador
-        const controlador = new Controlador();
-        const creadorFila = new CreadorFilas(controlador);
-        const modelo = new Modelo(controlador);
-        const vista = new Vista(controlador);
+        const creadorFila = new CreadorFilas();
+        const modelo = new Modelo();
+        const vista = new Vista();
+        const controlador = new Controlador(modelo, vista, creadorFila);
     </script>
        

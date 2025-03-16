@@ -1,28 +1,15 @@
 class CreadorFilas {
+    constructor() {
 
-    constructor(controlador) {
-
-        this.controlador = controlador;
-        
-        this.id = 0;
-
-        this.fecha = new Date();
-
-        this.estado = 0;
     }
 
-    nuevaFila(descripcion) {
+    nuevaFila(descripcion, id) {
+
         let newFila = [];
-        newFila.push(this.id);
+        newFila.push(id);
         newFila.push(descripcion);
-        newFila.push(this.fecha);
-        newFila.push(this.estado);
-        this.updateId();
+        newFila.push(new Date());
         return newFila;
-    }
 
-    updateId(){
-        ++this.id;
     }
-
 }

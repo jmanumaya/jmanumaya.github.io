@@ -1,48 +1,48 @@
 class Controlador {
+    constructor(modelo, vista, creadorFila) {
 
-    constructor() {
+        this.creadorFila = creadorFila;
 
-        this.creadorFila = new CreadorFilas();
-        this.modelo = new Modelo();
-        this.vista = new Vista();
+        this.modelo = modelo;
+
+        this.vista = vista;
+
+        this.idCounter = 0;
 
         this.btnCrear = document.getElementById('btn_enviar').addEventListener('click', () => {
 
             this.descripcion = $('#inpDescripcion').val();
             this.creaTarea();
-        })
+
+        });
 
         this.actualizaVista();
     }
 
-    creaTarea(){
+    creaTarea() {
 
-        const fila = this.creadorFila.nuevaFila(this.descripcion);
-        
+        const fila = this.creadorFila.nuevaFila(this.descripcion, this.idCounter++);
         this.almacenaTarea(fila);
+        this.actualizaVista();
+    }
+
+    almacenaTarea(fila) {
+        this.modelo.setTarea(fila);
+    }
+
+    eliminaTarea(id) {
+        this.modelo.eliminaTarea(id);
 
         this.actualizaVista();
     }
 
-    almacenaTarea(fila){
-
-        this.modelo.setTarea(fila);
-
+    activaTarea(id, checked) {
+        this.actualizaVista(checked ? id : null);
     }
 
-    eliminarTarea(id, checked){
-
-        if(checked){
-            this.modelo.eliminaTarea(id)
-            this.actualizaVista();
-        }
-    }
-
-    actualizaVista(){
-
+    actualizaVista(id) {
         const tareas = this.modelo.getTareas();
-        this.vista.renderTareas(tareas);
+        
+        this.vista.renderTareas(tareas, id);
     }
-
 }
-
