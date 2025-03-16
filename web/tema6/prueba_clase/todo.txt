@@ -1,0 +1,7 @@
+
+
+
+Agregar a cada tarea (fila) un boton para eliminarla.
+
+
+Agregar en el apartado Estado un checkbox

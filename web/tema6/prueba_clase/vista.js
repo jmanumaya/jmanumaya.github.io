@@ -1,42 +1,33 @@
-class TaskView {
-    constructor() {
-        this.taskInput = document.getElementById('taskInput');
-        this.addTaskButton = document.getElementById('addTaskButton');
-        this.taskList = document.getElementById('taskList');
+class Vista {
+    constructor(controlador) {
+
+        this.controlador = controlador
+
+        this.tabla = document.getElementById('tabla-body');
     }
-    // Mostrar la lista de tareas
-    renderTasks(tasks) {
-        this.taskList.innerHTML = '';
-        tasks.forEach((task, index) => {
-            const li = document.createElement('li');
-            li.textContent = task;
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Eliminar';
-            deleteButton.addEventListener('click', () => {
-                this.onDeleteTask(index);
-            });
-            li.appendChild(deleteButton);
-            this.taskList.appendChild(li);
+
+    renderTareas(tareas){
+
+        this.tabla.innerHTML = '';
+        tareas.forEach(tarea => { 
+            this.tabla.appendChild(this.generaTr(tarea));
         });
     }
 
-    // Obtener la tarea del input
-    getTaskInput() {
-        return this.taskInput.value;
+    generaTr(tarea) {
+        const datos = this.obtenerDatos(tarea);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${datos.id}</td>
+            <td>${datos.descripcion}</td>
+            <td>${datos.fecha}</td>
+            <td>${datos.estado}</td>
+        `;
+        return tr;
     }
 
-    // Limpiar el input
-    clearTaskInput() {
-        this.taskInput.value = '';
+    obtenerDatos(tarea){
+        return { id: tarea[0], descripcion: tarea[1], fecha: tarea[2], estado: tarea[3] };
     }
 
-    // Método para manejar el evento de eliminar tarea
-    bindDeleteTask(handler) {
-        this.onDeleteTask = handler;
-    }
-
-    // Método para manejar el evento de añadir tarea
-    bindAddTask(handler) {
-        this.addTaskButton.addEventListener('click', handler);
-    }
 }

@@ -1,36 +1,39 @@
-class TaskController {
-    constructor(model, view) {
-        this.model = model;
-        this.view = view;
+class Controlador {
 
-        // Vincular eventos
-        this.view.bindAddTask(this.handleAddTask.bind(this));
-        this.view.bindDeleteTask(this.handleDeleteTask.bind(this));
+    constructor() {
 
-        // Mostrar tareas iniciales
-        this.updateView();
+        this.creadorFila = new CreadorFilas();
+        this.modelo = new Modelo();
+        this.vista = new Vista();
+        this.btnCrear = document.getElementById('btn_enviar').addEventListener('click', () => {
+
+            this.descripcion = $('#inpDescripcion').val();
+            this.creaTarea();
+        })
+
+        this.actualizaVista();
     }
 
-    // Manejar la adición de una tarea
-    handleAddTask() {
-        const task = this.view.getTaskInput();
-        if (task) {
-            this.model.addTask(task);
-            this.view.clearTaskInput();
-            this.updateView();
-        }
+    creaTarea(){
+
+        const fila = this.creadorFila.nuevaFila(this.descripcion);
+        
+        this.almacenaTarea(fila);
+
+        this.actualizaVista();
     }
 
-    // Manejar la eliminación de una tarea
-    handleDeleteTask(index) {
-        this.model.deleteTask(index);
-        this.updateView();
+    almacenaTarea(fila){
+
+        this.modelo.setTarea(fila);
+
     }
 
-    // Actualizar la vista con las tareas actuales
-    updateView() {
-        const tasks = this.model.getTasks();
-        this.view.renderTasks(tasks);
+    actualizaVista(){
+
+        const tareas = this.modelo.getTareas();
+        this.vista.renderTareas(tareas);
     }
+
 }
 
