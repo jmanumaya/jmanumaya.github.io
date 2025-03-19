@@ -16,7 +16,7 @@ class Vista {
             <th>Descripcion</th>
             <th>Fecha</th>
             <th>Estado</th>
-            ${id != null ? '<th>Elimina</th>' : ''}
+            <th>Elimina</th>
         `;
 
         this.tabla.innerHTML = '';
@@ -29,12 +29,13 @@ class Vista {
 
         const datos = this.obtenerDatos(tarea);
         const tr = document.createElement('tr');
+
         tr.innerHTML = `
             <td>${datos.id}</td>
             <td>${datos.descripcion}</td>
             <td>${datos.fecha}</td>
             <td><input type="checkbox" ${datos.id === id ? 'checked' : ''} onchange="controlador.activaTarea(${datos.id}, this.checked)"></td>
-            ${id === datos.id ? `<td><button id="btn-elimina" type="button" onclick="controlador.eliminaTarea(${datos.id})">Eliminar</button></td>` : ''}
+            <td><button id="btn-elimina" type="button" onclick="controlador.eliminaTarea(${datos.id})">Eliminar</button></td>
         `;
         return tr;
     }
