@@ -9,7 +9,7 @@ class CreadorFilas {
 
         newFila.push(id);
         newFila.push(descripcion);
-        newFila.push(new Date());
+        newFila.push(new Date().toLocaleDateString());
         
         return newFila;
 
