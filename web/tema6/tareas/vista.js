@@ -3,7 +3,6 @@ class Vista {
         this.controlador = controlador;
         this.tabla = document.getElementById('tabla-body');
         this.trCabecera = document.getElementById('tr-cabecera');
-        this.deshabilitadas = [];
     }
 
     renderTareas(tareas, id) {
@@ -21,23 +20,21 @@ class Vista {
         });
     }
 
-    generaTr(tarea, id) {
+    generaTr(tarea) {
         const datos = this.obtenerDatos(tarea);
         const tr = document.createElement('tr');
-        const deshabilitada = this.deshabilitadas.includes(datos.id);
 
         tr.innerHTML = `
             <td>${datos.id}</td>
             <td>${datos.descripcion}</td>
             <td>${datos.fecha}</td>
-            <td><input type="checkbox" ${deshabilitada ? 'checked' : ''} onchange="controlador.activaTarea(${datos.id}, this.checked)" ${deshabilitada ? 'disabled' : ''}></td>
-            <td><button id="btn-elimina" type="button" onclick="controlador.eliminaTarea(${datos.id})" 
-            ${deshabilitada ? '' : 'disabled'}>Eliminar</button></td>
+            ${datos.checkbox}
+            ${datos.bottom}
         `;
         return tr;
     }
 
     obtenerDatos(tarea) {
-        return { id: tarea[0], descripcion: tarea[1], fecha: tarea[2] };
+        return { id: tarea.getId(), descripcion: tarea.getDescripcion(), fecha: tarea.getFecha(), checkbox: tarea.getCheckbox(), bottom: tarea.getBottom() };
     }
 }

@@ -7,7 +7,7 @@
     <script src="Controlador.js"></script>
     <script src="Modelo.js"></script>
     <script src="Vista.js"></script>
-    <script src="CreadorFila.js"></script>
+    <script src="tarea.js"></script>
     <title>Ejercicio Tareas MVC</title>
     <style>
 
@@ -254,9 +254,8 @@
     </footer>
     <script>
         // Instanciar el modelo, vista y controlador
-        const creadorFila = new CreadorFilas();
         const modelo = new Modelo();
         const vista = new Vista();
-        const controlador = new Controlador(modelo, vista, creadorFila);
+        const controlador = new Controlador(modelo, vista);
     </script>
        
