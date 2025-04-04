@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Jugadores y Equipos de Fútbol</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="scripts/vista.js"></script>
+    <script src="scripts/controlador.js"></script>
+    <script src="scripts/modeloEquipo.js"></script>
+    <script src="scripts/modeloJugador.js"></script>
+    <script src="scripts/equipo.js"></script>
+    <script src="scripts/jugador.js"></script>
+</head>
+<body>
+
+    <div id="myModal" class="modal"></div>
+
+    <header>
+        <h1>GESTIÓN DE JUGADORES Y EQUIPOS DE FÚTBOL</h1>
+    </header>
+
+    <article class="articulo_principal">
+        <div class="menu">
+            <nav class="nav_principal">
+                <button type="button" class="btn_nav_principal active" data-target="jugadores">Jugadores</button>
+                <button type="button" class="btn_nav_principal" data-target="equipos">Equipos</button>
+            </nav>
+
+            <section class="sec_principal">
+                <nav class="nav_secundario">
+                    <ul class="opciones_nav_secundario">
+                        <li>
+                            <a id="openModalBtn" href="#">
+                                <img src="recursos/plus-pequeno.png" alt="Nuevo" style="width: 20px; height: auto;">
+                                <span>Nuevo</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="recursos/filtrar.png" alt="Filtrar" style="width: 20px; height: auto;">
+                                <span>Filtrar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <article class="articulo_visualiza" id="visualiza-jugadores">
+                    <p>Lista de Jugadores de Fútbol</p>
+                    <div class="lista_jugadores" id="lista_de_jugadores">
+                    </div>
+                </article>
+
+                <article class="articulo_visualiza" id="visualiza-equipos" style="display: none;">
+                    <p>Lista de Equipos de Fútbol</p>
+                    <div class="lista_equipos" id="lista_de_equipos">
+                    </div>
+                </article>
+            </section>
+        </div>
+    </article>
+
+    <footer>
+        <p>Gestión de Jugadores y Equipos de Fútbol</p>
+        <p>Desarrollado por Jose Manuel, Roberto, Guillermo</p>
+        <p>&copy; 2025</p>
+    </footer>
+
+    <script>
+
+        /*Le paso al controlador ambos modelos, las clases creadoras de jugadores y equipos y la vista*/
+        /*Le paso al modeloEquipo y Jugador el controlador*/
+        /*Le paso a equipo y jugador el controlador*/
+        /*Le paso a la vista el controlador para que se pueda comunicar con este*/
+
+        /*Los comento porque hay errores en dichas clases y no me deja ejecutar lo mio -maya*/
+
+        const controlador = new Controlador();
+    
+        const equipoModelo = new EquipoModel();
+        const jugadorModelo = new JugadorModel();
+    
+        controlador.setModeloEquipo(equipoModelo);
+        controlador.setModeloJugador(jugadorModelo);
+
+        controlador.setEquipo();
+        controlador.setJugador();
+    
+        const vista = new Vista(controlador);
+        controlador.setVista(vista);
+    </script>
+</body>
+</html>
