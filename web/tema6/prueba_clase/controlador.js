@@ -1,6 +1,5 @@
 class Controlador {
-    constructor(modelo, vista, creadorFila) {
-        this.creadorFila = creadorFila;
+    constructor(modelo, vista) {
         this.modelo = modelo;
         this.vista = vista;
         this.idCounter = 0;
@@ -13,24 +12,17 @@ class Controlador {
     }
 
     creaTarea() {
-        const fila = this.creadorFila.nuevaFila(this.descripcion, this.idCounter++);
-        this.almacenaTarea(fila);
+        const ta = new Tarea(this.descripcion, this.idCounter++)
+        this.almacenaTarea(ta);
         this.actualizaVista();
     }
 
-    almacenaTarea(fila) {
-        this.modelo.setTarea(fila);
+    almacenaTarea(tarea) {
+        this.modelo.setTarea(tarea);
     }
 
     eliminaTarea(id) {
         this.modelo.eliminaTarea(id);
-        this.actualizaVista();
-    }
-
-    activaTarea(id, checked) {
-        if (checked) {
-            this.vista.deshabilitadas.push(id);
-        }
         this.actualizaVista();
     }
 

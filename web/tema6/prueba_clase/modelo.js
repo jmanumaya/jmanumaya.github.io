@@ -13,7 +13,7 @@ class Modelo {
 
     eliminaTarea(id) {
 
-        this.tareas = this.tareas.filter(tarea => tarea[0] !== id);
+        this.tareas = this.tareas.filter(tarea => tarea.getId() !== id);
         
     }
 }
