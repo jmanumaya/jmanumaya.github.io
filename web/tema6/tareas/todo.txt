@@ -1,5 +1,0 @@
-
-Hacer la interacción con el checkbox
-
-Puede que tenga funciones o cosas raras, porque he tenido que cambiar muchas cosas para hacerla con
-entidad (objeto) antes tenia cada tarea crada como array unidimensional
