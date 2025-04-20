@@ -1,91 +1,110 @@
 class Controlador {
     constructor() {
-        this.modeloEquipo = null;
-        this.modeloJugador = null;
-        this.equipo = null;
-        this.jugador = null;
         this.vista = null;
-    }
-
-    setModeloEquipo(modeloEquipo) {
-        this.modeloEquipo = modeloEquipo;
-    }
-
-    setModeloJugador(modeloJugador) {
-        this.modeloJugador = modeloJugador;
-    }
-
-    setEquipo(equipo) {
-        this.equipo = equipo;
-    }
-
-    setJugador(jugador) {
-        this.jugador = jugador;
+        this.equipoModelo = null;
+        this.jugadorModelo = null;
     }
 
     setVista(vista) {
         this.vista = vista;
-
-        const intervalJugador = setInterval(() => {
-            const btnAgregarJugador = document.getElementById('btn_crea_jugador');
-            if (btnAgregarJugador) {
-                btnAgregarJugador.addEventListener("click", () => this.agregarJugador());
-                clearInterval(intervalJugador); // Detenemos la comprobación
-            }
-        }, 100);
-
-        const intervalEquipo = setInterval(() => {
-            const btnAgregarEquipo = document.getElementById('btn_crea_equipo');
-            if (btnAgregarEquipo) {
-                btnAgregarEquipo.addEventListener("click", () => this.agregarEquipo());
-                clearInterval(intervalEquipo); // Detenemos la comprobación
-            }
-        }, 100);
     }
 
-    obtenerJugadores() {
-        return this.modeloJugador.getPlayers(); // devuelve array
+    setModeloEquipo(equipoModelo) {
+        this.equipoModelo = equipoModelo;
+    }
+
+    setModeloJugador(jugadorModelo) {
+        this.jugadorModelo = jugadorModelo;
+    }
+
+    agregarJugadorDesdeVista(jugadorData) {
+        const nuevoJugador = this.jugadorModelo.agregarJugador(jugadorData);
+        this.vista.renderizarVista(nuevoJugador);
+    }
+
+    mostrarJugadores() {
+        this.vista.limpiarListaJugadores();
+        const jugadores = this.jugadorModelo.obtenerTodos();
+        if (jugadores.length === 0) {
+            this.vista.mostrarMensajeVacio('jugador');
+        } else {
+            jugadores.forEach(jugador => this.vista.renderizarVista(jugador));
+        }
+    }
+
+    obtenerParaModalJugadores(jugadorId) {
+        const jugador = this.jugadorModelo.obtenerPorId(jugadorId);
+        if (jugador) {
+            const equipo = this.equipoModelo.obtenerTodos().find(e => e.getNombre() === jugador.getEquipo());
+            this.vista.mostrarModalJugador(jugador, equipo);
+        } else {
+            this.vista.mostrarError("No se encontró el jugador.");
+        }
+    }
+
+    eliminarJugador(jugadorId) {
+        this.jugadorModelo.eliminar(jugadorId);
+        this.vista.actualizarVista();
+        this.vista.mostrarSuccess("Jugador eliminado con éxito.");
+    }
+
+    agregarEquipoDesdeVista(equipoData) {
+        const nuevoEquipo = this.equipoModelo.agregarEquipo(equipoData);
+        this.vista.renderizarVista(nuevoEquipo);
+    }
+
+    mostrarEquipos() {
+        this.vista.limpiarListaEquipos();
+        const equipos = this.equipoModelo.obtenerTodos();
+        if (equipos.length === 0) {
+            this.vista.mostrarMensajeVacio('equipo');
+        } else {
+            equipos.forEach(equipo => this.vista.renderizarVista(equipo));
+        }
+    }
+
+    obtenerParaModalEquipos(equipoId) {
+        const equipo = this.equipoModelo.obtenerPorId(equipoId);
+        if (equipo) {
+            const jugadoresDelEquipo = this.jugadorModelo.obtenerJugadoresDeEquipo(equipo.getNombre());
+            this.vista.mostrarModalEquipo(equipo, jugadoresDelEquipo);
+        } else {
+            this.vista.mostrarError("No se encontró el equipo.");
+        }
+    }
+
+    eliminarEquipo(equipoId) {
+        this.equipoModelo.eliminar(equipoId);
+        this.vista.actualizarVista();
+        this.vista.mostrarSuccess("Equipo eliminado con éxito.");
+    }
+
+    buscar(termino) {
+        return {
+            jugadores: this.jugadorModelo.buscar(termino),
+            equipos: this.equipoModelo.buscar(termino)
+        };
+    }
+
+    asignarEquipoAJugador(jugadorId, equipoNombre) {
+        if (this.jugadorModelo.asignarEquipo(jugadorId, equipoNombre)) {
+            this.vista.actualizarVista();
+            this.vista.mostrarSuccess(`Jugador asignado a ${equipoNombre}.`);
+        } else {
+            this.vista.mostrarError("No se pudo asignar el equipo al jugador.");
+        }
     }
 
     obtenerEquipos() {
-        return this.modeloEquipo.obtenerEquipos(); // devuelve array
+        return this.equipoModelo.obtenerTodos();
     }
 
-    agregarJugador() {
-        const nombre = document.getElementById("imp_nombre_jugador").value;
-        const posicion = document.getElementById("imp_posicion_jugador").value;
-        const nacimiento = document.getElementById("imp_fecha_nacimiento").value;
-
-        if (nombre && posicion && nacimiento) {
-            const jugador = new Jugador(nombre, posicion, nacimiento);
-            this.modeloJugador.addPlayer(jugador);
-            this.vista.renderizarVista();
+    actualizarEquipo(equipoActualizado) {
+        if (this.equipoModelo.actualizar(equipoActualizado)) {
+            this.vista.actualizarVista();
+            this.vista.mostrarSuccess("Equipo actualizado con éxito.");
         } else {
-            alert("Por favor, completa todos los campos del jugador.");
+            this.vista.mostrarError("No se pudo actualizar el equipo.");
         }
-    }
-
-    agregarEquipo() {
-        const nombre = document.getElementById("imp_nombre_equipo").value;
-        const ciudad = document.getElementById("imp_ciudad_equipo").value;
-        const estadio = document.getElementById("imp_nombre_estadio").value;
-
-        if (nombre && ciudad && estadio) {
-            const equipo = new Equipo(nombre, ciudad, estadio);
-            this.modeloEquipo.agregarEquipo(equipo);
-            this.vista.renderizarVista();
-        } else {
-            alert("Por favor, completa todos los campos del equipo.");
-        }
-    }
-
-    // Puedes implementar los siguientes más adelante
-    asignarJugadorAEquipo(idJugador, idEquipo) {
-        this.modeloJugador.asignarJugadorAEquipo(idJugador, idEquipo);
-        this.vista.renderizarVista();
-    }
-
-    mostrarEstadisticas(idEquipo) {
-        this.modeloEquipo.mostrarEstadisticas(idEquipo);
     }
 }

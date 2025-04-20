@@ -1,56 +1,50 @@
 class EquipoModel {
-  constructor() {
-    if (localStorage.getItem("equipos") === null) {
-      localStorage.setItem("equipos", JSON.stringify([]));
-    } else {
-      this.equipos = JSON.parse(localStorage.getItem("equipos"));
+    constructor() {
+        this.equipos = [];
+        this.nextId = 1;
     }
-  }
 
-  agregarEquipo(equipo) {
-    this.equipos.push(equipo);
-    localStorage.setItem("equipos", JSON.stringify(this.equipos));
-  }
-
-  obtenerEquipos() {
-    return this.equipos;
-  }
-
-  getEquipoPorID(id) {
-    let equipo = null;
-    this.equipos.forEach(element => {
-      if (element.getId() === id) {
-        equipo = element;
-      }
-    });
-    return equipo;
-  }
-
-  getEquiposPorCiudad(ciudad) {
-    let equiposCiudad = [];
-    this.equipos.forEach(element => {
-      if (element.getCiudad() === ciudad) {
-        equiposCiudad.push(element);
-      }
-    });
-    return equiposCiudad; // Devuelvo el array de equipos encontrados
-  }
-
-  getEquipoPorNombre(nombre) {
-    let equipo = null;
-    this.equipos.forEach(element => {
-      if (element.getNombre() === nombre) {
-        equipo = element;
-      }
-    });
-    return equipo;
-  }
-
-  eliminarEquipo(id) {
-    let equipo = this.getEquipoPorID(id);
-    if (equipo !== null) {
-      this.equipos.splice(this.equipos.indexOf(equipo), 1);
-      localStorage.setItem("equipos", JSON.stringify(this.equipos)); // Guardamos la lista actualizada
+    agregarEquipo(equipoData) {
+        const nuevoEquipo = new Equipo(
+            this.nextId++,
+            equipoData.nombre,
+            equipoData.ciudad,
+            equipoData.estadio,
+            equipoData.imagen ? URL.createObjectURL(equipoData.imagen) : undefined // Simula la carga de imagen
+        );
+        this.equipos.push(nuevoEquipo);
+        return nuevoEquipo;
     }
-  }
+
+    obtenerTodos() {
+        return [...this.equipos];
+    }
+
+    obtenerPorId(id) {
+        return this.equipos.find(equipo => equipo.getId() === parseInt(id));
+    }
+
+    buscar(termino) {
+        const terminoLower = termino.toLowerCase();
+        return this.equipos.filter(equipo =>
+            equipo.getNombre().toLowerCase().includes(terminoLower) ||
+            equipo.getCiudad().toLowerCase().includes(terminoLower) ||
+            equipo.getEstadio().toLowerCase().includes(terminoLower)
+        );
+    }
+
+    actualizar(equipoActualizado) {
+        const index = this.equipos.findIndex(equipo => equipo.getId() === equipoActualizado.id);
+        if (index !== -1) {
+            this.equipos[index].setNombre(equipoActualizado.nombre);
+            this.equipos[index].setCiudad(equipoActualizado.ciudad);
+            this.equipos[index].setEstadio(equipoActualizado.estadio);
+            return true;
+        }
+        return false;
+    }
+
+    eliminar(id) {
+        this.equipos = this.equipos.filter(equipo => equipo.getId() !== parseInt(id));
+    }
 }

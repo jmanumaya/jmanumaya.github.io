@@ -1,0 +1,26 @@
+.buscador{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#inpBuscador{
+    background-color: #e9f8e9;
+    width: 30%;
+    height: 40px;
+    border-radius: 15px;
+    border: 1px solid #000000;
+    padding: 0 10px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#inpBuscador:focus{
+    background-color: #fff;
+    outline: unset;
+    border: 1px solid #4CAF50;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

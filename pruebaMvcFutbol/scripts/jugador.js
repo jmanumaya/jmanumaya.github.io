@@ -1,9 +1,11 @@
 class Jugador {
-    constructor(nombre, posicion, fechaNacimien) {
+    constructor(id, nombre, posicion, fechaNacimiento, equipo = '', imagen = 'img/default_jugador.png') {
+        this.id = id;
         this.nombre = nombre;
         this.posicion = posicion;
-        
-        this.fechaNacimiento = this.textoAFecha(fechaNacimien);
+        this.fechaNacimiento = fechaNacimiento;
+        this.equipo = equipo;
+        this.imagen = imagen;
     }
 
     getId() {
@@ -22,37 +24,19 @@ class Jugador {
         return this.fechaNacimiento;
     }
 
-    getIdEquipo() {
-        return this.idEquipo;
+    getEquipo() {
+        return this.equipo;
     }
 
-    getEdad() {
-        const fechaActual = new Date();
-        let year = fechaActual.getFullYear() - this.fechaNacimiento.getFullYear();
-        return year;
+    getImagen() {
+        return this.imagen;
     }
 
-    setPosicion(posicion) {
-        this.posicion = posicion;
+    setEquipo(equipo) {
+        this.equipo = equipo;
     }
 
-    setIdEquipo(idEquipo) {
-       this.idEquipo = idEquipo;
-    }
-
-    textoAFecha(fechaNacimien){
-        // Suponiendo que la fechaNacimiento está en el formato "DD/MM/YYYY"
-        let partesFecha = fechaNacimien.split('/');
-        let day = parseInt(partesFecha[0], 10); // Día
-        let month = parseInt(partesFecha[1], 10) - 1; // Mes (restamos 1 porque los meses comienzan en 0)
-        let year = parseInt(partesFecha[2], 10); // Año
-        return new Date(year, month, day); // Devuelve un objeto Date
-    }
-
-    fechaATexto(fecha){
-        let year = fecha.getFullYear();
-        let month = fecha.getMonth() + 1;
-        let day = fecha.getDate();
-        return `${day}/${month}/${year}`;
+    setImagen(imagen) {
+        this.imagen = imagen;
     }
 }
