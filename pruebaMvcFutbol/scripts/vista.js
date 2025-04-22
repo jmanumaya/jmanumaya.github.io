@@ -59,11 +59,10 @@ class Vista {
             const btnCrear = this.modal.querySelector('#btn_crea_jugador') || this.modal.querySelector('#btn_crea_equipo');
             if (btnCrear) {
                 btnCrear.addEventListener('click', () => {
-                    const datosFormulario = this.obtenerDatosFormularioCreacion();
                     if (this.pagina === 'jugador') {
-                        this.controlador.agregarJugadorDesdeVista(datosFormulario);
+                        this.controlador.agregarJugadorDesdeVista();
                     } else {
-                        this.controlador.agregarEquipoDesdeVista(datosFormulario);
+                        this.controlador.agregarEquipoDesdeVista();
                     }
                     this.modal.style.display = "none";
                 });
@@ -93,7 +92,7 @@ class Vista {
             inputBuscador.addEventListener('input', (e) => {
                 const termino = e.target.value.trim();
                 if (termino.length >= 2) {
-                    this.controlador.buscar(termino);
+                    this.controlador.buscar(termino, this.pagina);
                 } else if (this.pagina === 'jugador') {
                     this.controlador.mostrarJugadores();
                 } else {
@@ -110,20 +109,20 @@ class Vista {
 
     actualizarMenuFiltro(filtros) {
         if (this.menuFiltrar) {
-            this.menuFiltrar.innerHTML = ''; // Limpiar las opciones anteriores
+            this.menuFiltrar.innerHTML = '';
             filtros.forEach(filtro => {
                 const opcion = document.createElement('a');
                 opcion.classList.add('dropdown-item');
-                opcion.dataset.filtro = filtro.toLowerCase(); // Usar en minúsculas para consistencia
+                opcion.dataset.filtro = filtro.toLowerCase();
                 opcion.textContent = filtro;
-                opcion.href = '#'; // Evitar el comportamiento de enlace
+                opcion.href = '#'; // Evita el comportamiento de enlace
                 opcion.addEventListener('click', (e) => {
                     e.preventDefault();
                     const filtroSeleccionado = e.target.dataset.filtro;
                     if (this.pagina === 'jugador') {
                         this.controlador.filtrarJugadores(filtroSeleccionado);
                     } else if (this.pagina === 'equipo') {
-                        this.controlador.filtrarEquipos(filtroSeleccionado); // Nuevo método en el controlador
+                        this.controlador.filtrarEquipos(filtroSeleccionado);
                     }
                     this.menuFiltrar.classList.remove('show');
                 });
@@ -183,7 +182,7 @@ class Vista {
             titulo.textContent = "Introduce un Nuevo Jugador";
             titulo.classList.add("modal_titulo");
             formulariosContainer.appendChild(titulo);
-
+            
             const formularioJugador = document.createElement("div");
             formularioJugador.classList.add("formulario", "modal-formulario");
             formularioJugador.innerHTML = `
@@ -193,7 +192,13 @@ class Vista {
                     <label for="imp_nombre_jugador">Nombre del Jugador</label>
                     <input type="text" name="impNombre" id="imp_nombre_jugador" placeholder="Nombre">
                     <label for="imp_posicion_jugador">Posición del Jugador</label>
-                    <input type="text" name="impPosicion" id="imp_posicion_jugador" placeholder="Posición">
+                    <select name="impPosicion" id="imp_posicion_jugador">
+                        <option value="" selected>Selecciona una posición</option>
+                        <option value="portero">Portero</option>
+                        <option value="defensa">Defensa</option>
+                        <option value="centrocampista">Centrocampista</option>
+                        <option value="delantero">Delantero</option>
+                    </select>
                     <label for="imp_fecha_nacimiento">Fecha Nacimiento</label>
                     <input type="date" name="impFechaNacimiento" id="imp_fecha_nacimiento">
                     <button type="button" id="btn_crea_jugador">Crear Jugador</button>
@@ -276,7 +281,7 @@ class Vista {
 
         const liEquipo = document.createElement("li");
         liEquipo.classList.add("equipo");
-        liEquipo.textContent = jugador.getEquipo() === '' ? "Agente Libre" : jugador.getEquipo();
+        liEquipo.textContent = jugador.getEquipo() == "" ? "Agente Libre" : this.controlador.obtenerEquipoPorId(jugador.getEquipo());
         tarjeta.appendChild(liEquipo);
 
         if (conEventoClick) {
@@ -334,9 +339,6 @@ class Vista {
         posicionJugador.classList.add("posicion-jugador");
         posicionJugador.textContent = jugador.getPosicion();
         tarjeta.appendChild(posicionJugador);
-
-        // Añadir evento para mostrar el modal del jugador al hacer clic
-        tarjeta.addEventListener('click', () => this.controlador.obtenerParaModalJugadores(jugador.getId()));
 
         return tarjeta;
     }
@@ -448,7 +450,7 @@ class Vista {
             }
 
             const nombresEquipos = equipos.map(e => e.getNombre());
-            const nombreSeleccionado = prompt("Escribe el nombre del equipo:\n" + nombresEquipos.join("\n"));
+            const nombreSeleccionado = prompt("Escribe el nombre del equipo (Copia y pega para evitar confusiones):\n" + nombresEquipos.join("\n"));
 
             if (nombreSeleccionado && nombresEquipos.includes(nombreSeleccionado)) {
                 this.controlador.asignarEquipoAJugador(jugador.getId(), nombreSeleccionado);
@@ -463,6 +465,9 @@ class Vista {
     }
 
     mostrarModalEquipo(equipo, jugadores) {
+        console.log("Ejecutando mostrarModalEquipo", equipo, jugadores);
+        console.log("El modal es:", this.modalEquipo);
+
         const modal = this.modalEquipo;
         const contenedorTarjeta = modal.querySelector(".tarjeta-equipo");
         contenedorTarjeta.innerHTML = "";
@@ -544,10 +549,6 @@ class Vista {
         contenedorTarjeta.appendChild(botones);
 
         document.getElementById("btnEliminarEquipo").addEventListener("click", () => {
-            if (jugadores && jugadores.length > 0) {
-                this.mostrarError("No se puede eliminar un equipo con jugadores asignados.");
-                return;
-            }
 
             if (confirm("¿Está seguro que desea eliminar este equipo?")) {
                 this.controlador.eliminarEquipo(equipo.getId());
@@ -556,8 +557,9 @@ class Vista {
             }
         });
 
+        // Cuando se le haga click al botón de editar, se abrirá un formulario para editar el equipo
+        // y se reemplazará el contenido del modal con el formulario de edición
         document.getElementById("btnEditarEquipo").addEventListener("click", () => {
-            // Crear un formulario de edición
             const formEdicion = document.createElement("div");
             formEdicion.classList.add("formulario-edicion");
             formEdicion.innerHTML = `
@@ -586,29 +588,20 @@ class Vista {
             });
 
             document.getElementById("btn-guardar-edicion").addEventListener("click", () => {
-                const nuevoNombre = document.getElementById("edit-nombre-equipo").value;
-                const nuevaCiudad = document.getElementById("edit-ciudad-equipo").value;
-                const nuevoEstadio = document.getElementById("edit-estadio-equipo").value;
-
-                if (!nuevoNombre || !nuevaCiudad || !nuevoEstadio) {
-                    this.mostrarError("Todos los campos son obligatorios.");
-                    return;
-                }
-
-                const datosActualizados = {
-                    id: equipo.getId(),
-                    nombre: nuevoNombre,
-                    ciudad: nuevaCiudad,
-                    estadio: nuevoEstadio
-                };
-
-                this.controlador.actualizarEquipo(datosActualizados);
+                this.controlador.actualizarEquipo(equipo.getId());
                 modal.style.display = "none";
-                this.mostrarSuccess("Equipo actualizado con éxito.");
             });
         });
 
         modal.style.display = "block";
+    }
+
+    obtenerDatosModificaEquipo(){
+        return {
+            nombre: document.getElementById("edit-nombre-equipo").value,
+            ciudad: document.getElementById("edit-ciudad-equipo").value,
+            estadio: document.getElementById("edit-estadio-equipo").value
+        };
     }
 
     mostrarError(mensaje) {
@@ -622,27 +615,28 @@ class Vista {
     mostrarMensaje(tipo, mensaje) {
         const card = document.getElementById('errorCard');
         const msg = document.getElementById('errorMessage');
-
+        
         card.classList.remove('error', 'success');
-
         card.classList.add(tipo);
-
+        card.classList.add('show');
+        
         msg.textContent = (tipo === 'error' ? '⚠️ ' : '✅ ') + mensaje;
         card.style.display = 'block';
-
+        
         card.style.animation = 'none';
         void card.offsetWidth;
         card.style.animation = 'fadeIn 0.4s ease-out forwards';
-
+        
         clearTimeout(this.errorTimeout);
         this.errorTimeout = setTimeout(() => {
             this.ocultarError();
         }, 5000);
     }
-
+    
     ocultarError() {
         if (this.errorCard) {
             this.errorCard.classList.remove("show");
+            this.errorCard.style.display = 'none';
         }
     }
 
@@ -673,3 +667,5 @@ class Vista {
         }
     }
 }
+
+/*Comentario*/

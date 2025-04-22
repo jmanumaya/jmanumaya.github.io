@@ -1,50 +1,168 @@
 class EquipoModel {
     constructor() {
-        this.equipos = [];
-        this.nextId = 1;
+      this.equipos = [];
+      if (localStorage.getItem("equipos") === null) {
+        localStorage.setItem("equipos", JSON.stringify([]));
+      } else {
+        JSON.parse(localStorage.getItem("equipos")).forEach(element => {
+          this.inicializarEquiposLocalStorage(element.nombre, element.ciudad, element.estadio, element.imagen);
+        }); 
+      }
     }
-
-    agregarEquipo(equipoData) {
-        const nuevoEquipo = new Equipo(
-            this.nextId++,
-            equipoData.nombre,
-            equipoData.ciudad,
-            equipoData.estadio,
-            equipoData.imagen ? URL.createObjectURL(equipoData.imagen) : undefined // Simula la carga de imagen
-        );
-        this.equipos.push(nuevoEquipo);
-        return nuevoEquipo;
+  
+    // Inicializa los equipos en el localStorage
+    inicializarEquiposLocalStorage(nombre, ciudad, estadio, imagen) {
+      
+      let index = this.equipos.length;
+      let equipo = new Equipo(index+1, nombre, ciudad, estadio, "../recursos/pordefecto-equipo.png");
+      this.equipos.push(equipo);
     }
-
-    obtenerTodos() {
-        return [...this.equipos];
+  
+    // Agregar un equipo al modelo
+    agregarEquipo(nombre, ciudad, estadio, imagen) {
+      let agregado = true;
+      let url = "";
+      let imagenBlob = new Blob([imagen], { type: "image/png" });
+      console.log(imagen);
+      console.log(imagenBlob);
+      if (imagen !== undefined) {
+      
+          url = URL.createObjectURL(imagenBlob);
+          console.log(url);
+      }else{
+          url = "../recursos/pordefecto-equipo.png";
+      }
+      
+      
+      if (this.getEquipoPorNombre(nombre) === null) {
+        
+        let equipo = new Equipo((this.equipos.length+1), nombre, ciudad, estadio, url);
+        this.equipos.push(equipo);
+        this.actualizarEquipoLocalStorage();
+      }else{
+        agregado = false;
+      }
+  
+      return agregado;
     }
-
-    obtenerPorId(id) {
-        return this.equipos.find(equipo => equipo.getId() === parseInt(id));
+  
+  
+  
+    //Guardar en localStorage los equipos
+    actualizarEquipoLocalStorage() { 
+  
+      localStorage.setItem("equipos", JSON.stringify(this.equipos));
     }
-
-    buscar(termino) {
-        const terminoLower = termino.toLowerCase();
-        return this.equipos.filter(equipo =>
-            equipo.getNombre().toLowerCase().includes(terminoLower) ||
-            equipo.getCiudad().toLowerCase().includes(terminoLower) ||
-            equipo.getEstadio().toLowerCase().includes(terminoLower)
-        );
+  
+    // get de equipos
+    getEquipos() {
+      return this.equipos;
     }
-
-    actualizar(equipoActualizado) {
-        const index = this.equipos.findIndex(equipo => equipo.getId() === equipoActualizado.id);
-        if (index !== -1) {
-            this.equipos[index].setNombre(equipoActualizado.nombre);
-            this.equipos[index].setCiudad(equipoActualizado.ciudad);
-            this.equipos[index].setEstadio(equipoActualizado.estadio);
-            return true;
+  
+    // get de equipos pasando el id
+    getEquipoPorId(id) { 
+      console.log(id);
+      let equipo = null;
+      this.equipos.forEach(element => {
+        
+        if (element.id == id) {
+          
+          equipo = element;
         }
-        return false;
+      });
+      console.log(equipo);
+      return equipo;
     }
-
-    eliminar(id) {
-        this.equipos = this.equipos.filter(equipo => equipo.getId() !== parseInt(id));
+  
+    // get de equipos pasando el nombre
+    getEquiposPorCiudad(ciudad) {
+      let equiposCiudad = [];
+      this.equipos.forEach(element => {
+        if (element.getCiudad() === ciudad) {
+          equiposCiudad.push(element);
+        }
+      });
     }
-}
+  
+  
+  
+    getEquipoPorNombre(nombre) {
+      let equipo = null;
+      this.equipos.forEach(element => {
+        if (element.getNombre() === nombre) {
+          equipo = element;
+        }
+      });
+      return equipo;
+    }
+  
+    editarEquipo(id, nombre, ciudad, estadio) {
+      this.equipos.forEach(element => {
+        if(element.id == id){
+          element.nombre = nombre;
+          element.ciudad = ciudad;
+          element.estadio = estadio;
+        }
+      });
+      this.actualizarEquipoLocalStorage();
+    }
+  
+    eliminarEquipo(id) {
+      let eliminado = false;
+      let equipo = this.getEquipoPorId(id);
+      if (equipo !== null) {
+        this.equipos.splice(this.equipos.indexOf(equipo), 1);
+        this.actualizarEquipoLocalStorage();
+        eliminado = true;
+      }
+      //LLamar a setEquipos del equipo eliminado para que se elimine de la lista de jugadores
+      return eliminado;
+    }
+    // opciones de filtrado
+    getOrdenAlfabetico() {
+      let alfabetico = this.equipos.sort((a, b) => {
+          const nombreA = a.nombre;
+          const nombreB = b.nombre;
+          return nombreA.localeCompare(nombreB);
+      });
+      return alfabetico;
+    }
+    getOrdenAlfabeticoDescendente() {
+      let alfabetico = this.equipos.sort((a, b) => {
+        const nombreA = a.nombre;
+        const nombreB = b.nombre;
+        return nombreB.localeCompare(nombreA);
+    });
+    return alfabetico;
+    }
+    getOrdenCiudad() {
+      let ciudad = this.equipos.sort((a, b) => {
+          const ciudadA = a.ciudad;
+          const ciudadB = b.ciudad;
+          return ciudadA.localeCompare(ciudadB);
+      });
+      return ciudad;
+    }
+    getOrdenEstadio() {
+      console.log(this.equipos);
+      let estadio = this.equipos.sort((a, b) => {
+        console.log(a.estadio, b.estadio);
+          const estadioA = a.estadio;
+          const estadioB = b.estadio;
+          return estadioA.localeCompare(estadioB);
+      });
+      return estadio;
+    }
+    //funcion que devuelve los jugadores con esa cadena
+    buscaEquipoPorNombre(cadena){
+      let equipoNombres = this.equipos
+      equipoNombres = equipoNombres.filter(element => {
+          const nombre = element.getNombre();
+          return nombre && nombre.toLowerCase().includes(cadena.toLowerCase());
+      });
+      
+      return equipoNombres;
+  }
+  }
+  
+  /*Comentario*/
