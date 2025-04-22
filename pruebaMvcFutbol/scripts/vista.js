@@ -351,28 +351,16 @@ class Vista {
         contenedor.appendChild(mensaje);
     }
 
-    renderizarVista(jugadores) { // Ahora recibe la lista de jugadores directamente
-        this.limpiarListaJugadores();
-        if (jugadores && jugadores.length > 0) {
-            jugadores.forEach(jugador => {
-                const tarjeta = this.crearTarjetaJugador(jugador, true);
-                this.listaJugadoresContenedor.appendChild(tarjeta);
-            });
-        } else {
-            this.mostrarMensajeVacio('jugador');
-        }
-    }
+    renderizarVista(objeto) {
+        const contenedor = this.pagina === 'jugador' ? this.listaJugadoresContenedor : this.listaEquiposContenedor;
+        if (!objeto) return;
 
-    // Para la renderización de equipos filtrados
-    renderizarListaEquipos(equipos) {
-        this.limpiarListaEquipos();
-        if (equipos && equipos.length > 0) {
-            equipos.forEach(equipo => {
-                const tarjeta = this.crearTarjetaEquipo(equipo);
-                this.listaEquiposContenedor.appendChild(tarjeta);
-            });
+        if (this.pagina === 'jugador') {
+            const tarjetaJugador = this.crearTarjetaJugador(objeto, true);
+            contenedor.appendChild(tarjetaJugador);
         } else {
-            this.mostrarMensajeVacio('equipo');
+            const tarjetaEquipo = this.crearTarjetaEquipo(objeto);
+            contenedor.appendChild(tarjetaEquipo);
         }
     }
 
