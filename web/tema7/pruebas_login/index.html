@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Joyago Games Studios</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header>
+        <div class="cnt-textBvd">
+            <h1>Bienvenido a Joyago Games</h1>
+        </div>
+        
+        <div class="cnt-redes">
+            <a href="https://www.instagram.com/joyagogames"><img id="iconIg" src="resources/ig.png" alt="Instagram"></a>
+        </div>
+    </header>
+    <article>
+
+        <div class="cnt-formSesion">
+            <h2>Inicia Sesión</h2>
+            <form>
+                <label for="impEmail">Correo Electrónico:</label>
+                <input type="email" name="imput-correo-is" id="impEmail" placeholder="email">
+                <label for="impPass">Contraseña:</label>
+                <input type="password" name="imput-pass-is" id="impPass" placeholder="*******">
+                <button type="button">Iniciar Sesión</button>
+                <p>¿No tienes Cuenta?<br><a href="#">Registrate</a></p>
+            </form>
+        </div>
+
+    </article>
+    <footer>
+        <p>© 2025 Joyago Games. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const iconIg = document.getElementById('iconIg');
+        const iconIgOriginal = 'resources/ig.png';
+        const iconIgHover = 'resources/ighover.png';
+      
+        iconIg.addEventListener('mouseover', () => {
+          iconIg.src = iconIgHover;
+        });
+      
+        iconIg.addEventListener('mouseout', () => {
+          iconIg.src = iconIgOriginal;
+        });
+    </script>
+</body>
+</html>

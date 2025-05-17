@@ -142,7 +142,7 @@ h3{
 
 #tm6:hover {
     transform: scale(1.05);
-    height: 118px; /* Ajustar a la altura requerida */
+    height: 137px; /* Ajustar a la altura requerida */
 }
 
 #tm6:hover #tm6c {
@@ -152,6 +152,38 @@ h3{
 
 #tm6c:hover {
     background-color: rgb(121, 158, 226);
+    padding-bottom: 10px;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilos actualizados para el Tema 6 */
+#tm7 {
+    background-color: rgb(36, 134, 80);
+    height: 70px;
+    transition: transform 0.3s ease, height 0.3s ease;
+}
+
+#tm7c {
+    background-color: rgb(119, 151, 134);
+    padding-bottom: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#tm7:hover {
+    transform: scale(1.05);
+    height: 118px; /* Ajustar a la altura requerida */
+}
+
+#tm7:hover #tm7c {
+    opacity: 1;
+    visibility: visible;
+}
+
+#tm7c:hover {
+    background-color: rgb(119, 151, 134);
     padding-bottom: 10px;
     opacity: 1;
     visibility: visible;
