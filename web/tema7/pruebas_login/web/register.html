@@ -3,42 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="titleIndex">Bienvenido a Joyago Games</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="js/controller.js"></script>
-    <script src="js/view.js"></script>
-    <script src="js/model.js"></script>
+    <title>Registrate en Joyago Games</title>
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
     <header>
         <div class="cnt-textBvd">
-            <h1 id="textHeader">Bienvenido a Joyago Games</h1>
+            <h1>Crea tu Cuenta en Joyago Games</h1>
         </div>
         
         <div class="cnt-redes">
-            <a href="https://www.instagram.com/joyagogames"><img id="iconIg" src="resources/ig.png" alt="Instagram"></a>
+            <a href="https://www.instagram.com/joyagogames"><img id="iconIg" src="../resources/ig.png" alt="Instagram"></a>
         </div>
     </header>
     <article>
 
         <div class="cnt-formSesion">
-            <h2>Inicia Sesión</h2>
-            <form>
-                <label for="impEmail">Correo Electrónico:</label>
-                <input type="email" name="imput-correo-is" id="impEmail" placeholder="Email">
-                <label for="impPass">Contraseña:</label>
-                <input type="password" name="imput-pass-is" id="impPass" placeholder="*******">
-                <button type="button" id="buttonInicioSesion">Iniciar Sesión</button>
-                <div id="cnt-Info">
-                </div>
-                <p>¿No tienes Cuenta?<br><a id="aRegister">Registrate</a></p>
-            </form>
-        </div>
-
-        <div class="cnt-formRegistro" style="display: none;">
             <h2>Crea tu Cuenta</h2>
             <form>
                 <div class="form-dist">
@@ -59,10 +39,8 @@
                         <input type="password" name="imput-pass-rg" id="impPass2" placeholder="*******">
                     </div>
                 </div>
-                <button type="button" id="buttonRegistro">Registrarse</button>
-                <div id="cnt-Info">
-                </div>
-                <p>¿Ya tienes Cuenta?<br><a id="aLogin">Inicia Sesión</a></p>
+                <button type="button">Registrarse</button>
+                <p>¿Ya tienes Cuenta?<br><a href="../index.html">Inicia Sesión</a></p>
             </form>
         </div>
 
@@ -72,9 +50,17 @@
     </footer>
 
     <script>
-        const model = new Model();
-        const view = new View();
-        const controller = new Controller(model, view);
+        const iconIg = document.getElementById('iconIg');
+        const iconIgOriginal = '../resources/ig.png';
+        const iconIgHover = '../resources/ighover.png';
+      
+        iconIg.addEventListener('mouseover', () => {
+          iconIg.src = iconIgHover;
+        });
+      
+        iconIg.addEventListener('mouseout', () => {
+          iconIg.src = iconIgOriginal;
+        });
     </script>
 </body>
 </html>
