@@ -65,13 +65,6 @@ article{
     backdrop-filter: blur(20px);
 }
 
-.cnt-formSesion h2 {
-    font-size: 24px;
-    color: white;
-    margin-bottom: 20px;
-    text-decoration: 2px underline;
-}
-
 .cnt-formRegistro {
     background-color: transparent;
     border: 1px solid white;
@@ -85,7 +78,7 @@ article{
     backdrop-filter: blur(20px);
 }
 
-.cnt-formRegistro h2 {
+.cnt-formSesion h2 {
     font-size: 24px;
     color: white;
     margin-bottom: 20px;
@@ -187,52 +180,6 @@ form p a {
 
 form p a:hover{
     text-decoration: underline;
-}
-
-.cnt-user-logged-in {
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(255, 255, 255);
-    padding: 30px;
-    width: 90%;
-    max-width: 400px;
-    margin-top: 90px;
-    text-align: center;
-    backdrop-filter: blur(20px);
-    /* Asegúrate de que inicialmente esté oculto, el JS lo mostrará */
-    display: none; /* Asegúrate de que esto esté aquí si no lo está en el HTML */
-}
-
-.cnt-user-logged-in h2 {
-    font-size: 24px;
-    color: white;
-    margin-bottom: 20px;
-    text-decoration: 2px underline;
-}
-
-.cnt-user-logged-in p {
-    font-size: 18px;
-    color: white;
-    margin-bottom: 15px;
-}
-
-.cnt-user-logged-in button {
-    background-color: transparent;
-    color: white;
-    padding: 12px 20px;
-    border: 1px solid white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s ease-in-out;
-    margin-top: 20px; /* Espacio para el botón de cerrar sesión */
-}
-
-.cnt-user-logged-in button:hover {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
 }
 
 footer {
