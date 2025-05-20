@@ -21,11 +21,6 @@ class View {
             // Contenedores de información específicos para cada formulario
             contenedorInfoLogin: document.getElementById('cnt-InfoLogin'),
             contenedorInfoRegister: document.getElementById('cnt-InfoRegister'),
-            // Elementos para la sección de usuario logueado
-            loggedInSection: document.querySelector('.cnt-user-logged-in'),
-            welcomeUserName: document.getElementById('welcomeUserName'),
-            userEmail: document.getElementById('userEmail'),
-            buttonCerrarSesion: document.getElementById('buttonCerrarSesion')
         };
 
         this.iconIgOriginal = 'resources/ig.png';
@@ -67,21 +62,19 @@ class View {
     mostrarFormRegistro() {
         this.elements.formInicioSesion.style.display = 'none';
         this.elements.formRegistro.style.display = 'block';
-        this.elements.loggedInSection.style.display = 'none'; // Oculta sección de logueado
         this.elements.titleIndex.textContent = "Regístrate en Joyago Games";
         this.elements.textHeader.textContent = "Crea tu Cuenta en Joyago Games";
-        this.ocultarMensajes(); // Oculta todos los mensajes al cambiar de formulario
-        this.limpiarCamposFormRegistro(); // Limpia campos al cambiar
+        this.ocultarMensajes();
+        this.limpiarCamposFormRegistro();
     }
 
     mostrarFormInicioSesion() {
         this.elements.formRegistro.style.display = 'none';
         this.elements.formInicioSesion.style.display = 'block';
-        this.elements.loggedInSection.style.display = 'none'; // Oculta sección de logueado
         this.elements.titleIndex.textContent = "Bienvenido a Joyago Games";
         this.elements.textHeader.textContent = "Bienvenido a Joyago Games";
-        this.ocultarMensajes(); // Oculta todos los mensajes al cambiar de formulario
-        this.limpiarCamposFormLogin(); // Limpia campos al cambiar
+        this.ocultarMensajes();
+        this.limpiarCamposFormLogin();
     }
 
     // Métodos para mostrar mensajes de error/éxito en el formulario de Login
@@ -151,25 +144,6 @@ class View {
         this.elements.impPass2Rg.value = '';
     }
 
-    // Métodos para mostrar/ocultar la sección de usuario logueado
-    mostrarLoggedInSection(userEmail) {
-        this.elements.formInicioSesion.style.display = 'none';
-        this.elements.formRegistro.style.display = 'none';
-        this.elements.loggedInSection.style.display = 'block';
-        this.elements.userEmail.textContent = userEmail;
-        this.elements.welcomeUserName.textContent = userEmail.split('@')[0]; // Simple nombre de usuario
-        this.elements.titleIndex.textContent = "Mi Cuenta | Joyago Games";
-        this.elements.textHeader.textContent = `Bienvenido, ${userEmail.split('@')[0]}`;
-        this.ocultarMensajes();
-    }
-
-    ocultarLoggedInSection() {
-        this.elements.loggedInSection.style.display = 'none';
-        this.elements.formInicioSesion.style.display = 'block'; // Vuelve al formulario de login
-        this.elements.titleIndex.textContent = "Bienvenido a Joyago Games";
-        this.elements.textHeader.textContent = "Bienvenido a Joyago Games";
-        this.ocultarMensajes();
-    }
 }
 
 export default View;

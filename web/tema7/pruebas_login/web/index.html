@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">     <!--Cambiar el margin del container. -->
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joyago Games</title>
     <meta name="google-site-verification" content="RrQZpBTS6uzT_jDWV3nZODoAc1wIppRBzItJs4MBcRA" />
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-firestore-compat.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,37 +23,88 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
         header h1 {
             font-size: 3rem;
             margin: 10px 0;
+            flex-grow: 1;
+            text-align: left;
+            padding-left: 20px;
         }
-        header p {
-            font-size: 1.5rem;
-            margin: 10px 0;
+        .cnt-redes {
+            margin-right: 20px;
         }
-        /* nav {
-            margin-top: 20px;
+        .cnt-redes img {
+            width: 40px;
+            height: 40px;
         }
-        nav ul {
-            list-style: none;
-            padding: 0;
+
+        .profile-container {
+            position: relative;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #4CAF50;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            border: 2px solid #339933;
+            transition: transform 0.2s ease-in-out;
         }
-        nav ul li {
-            display: inline;
+        .profile-avatar:hover {
+            transform: scale(1.1);
         }
-        nav ul li a {
-            text-decoration: none;
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+            z-index: 1001;
+            text-align: left;
+        }
+        .profile-dropdown p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: #eee;
+        }
+        .profile-dropdown p span {
+            font-weight: bold;
             color: #4CAF50;
-            font-size: 1.2rem;
-            transition: color 0.3s;
         }
-        nav ul li a:hover {
-            color: #ffffff;
-        } */
+        .profile-dropdown button {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .profile-dropdown button:hover {
+            background-color: #d32f2f;
+        }
+
         .container {
             max-width: 1500px;
             margin: auto;
@@ -115,18 +169,46 @@
             margin: 0;
             font-size: 0.9rem;
         }
+
+        /* Media Queries para responsividad */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px;
+                text-align: center;
+            }
+            header h1 {
+                text-align: center;
+                padding-left: 0;
+            }
+            .cnt-redes, .profile-container {
+                margin: 10px 0;
+            }
+            .profile-dropdown {
+                left: 50%;
+                transform: translateX(-50%);
+                top: 70px;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Joyago Games</h1>
-        <!-- <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#proyectos">Proyectos</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav> -->
+
+        <div class="profile-container">
+            <div class="profile-avatar" id="profileAvatar">
+                </div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <p>Usuario: <span id="welcomeUserName"></span></p>
+                <p>Email: <span id="userEmail"></span></p>
+                <button type="button" id="buttonCerrarSesion">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <div class="cnt-redes">
+            <a href="https://www.instagram.com/joyagogames"><img id="iconIg" src="../resources/ig.png" alt="Instagram"></a>
+        </div>
     </header>
 
     <div class="container">
@@ -148,17 +230,7 @@
                         </p>
                     </a>
                 </div>
-                <!-- <div class="game-card">
-                    <img src="game2-placeholder.jpg" alt="Imagen Juego 2">
-                    <h3>Título Juego 2</h3>
-                    <p>Descripción Breve...</p>
                 </div>
-                <div class="game-card">
-                    <img src="game3-placeholder.jpg" alt="Imagen Juego 3">
-                    <h3>Título Juego 3</h3>
-                    <p>Descripción Breve...</p>
-                </div> -->
-            </div>
         </div>
         <hr>
         <div class="section" id="contacto">
@@ -170,5 +242,7 @@
     <footer>
         <p>&copy; 2025 Joyago Games. Todos los derechos reservados.</p>
     </footer>
+
+    <script type="module" src="web/js/main-app.js"></script>
 </body>
 </html>

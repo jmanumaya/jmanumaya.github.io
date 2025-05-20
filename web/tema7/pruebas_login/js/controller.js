@@ -6,23 +6,25 @@ class Controller {
         this.model = model;
         this.view = view;
 
-        // Inicializar el observador de estado de autenticación de Firebase
-        this.model.onAuthStateChanged((user) => {
-            if (user) {
-                // Usuario logueado
-                this.view.mostrarLoggedInSection(user.email);
-            } else {
-                // Usuario deslogueado
-                this.view.ocultarLoggedInSection();
-            }
-        });
+        // ¡ELIMINADO: Ya no necesitamos el observador de estado de autenticación de Firebase aquí!
+        // this.model.onAuthStateChanged((user) => {
+        //     if (user) {
+        //         this.view.mostrarLoggedInSection(user.email);
+        //     } else {
+        //         this.view.ocultarLoggedInSection();
+        //     }
+        // });
 
         // Event Listeners para la UI
         this.view.elements.buttonInicioSesion.addEventListener('click', this.inicioSesion.bind(this));
         this.view.elements.buttonRegistro.addEventListener('click', this.registro.bind(this));
         this.view.elements.aRegister.addEventListener('click', this.mostrarFormRegistro.bind(this));
         this.view.elements.aLogin.addEventListener('click', this.mostrarFormInicioSesion.bind(this));
-        this.view.elements.buttonCerrarSesion.addEventListener('click', this.cerrarSesion.bind(this));
+        // ¡ELIMINADO: Ya no necesitamos el botón de cerrar sesión aquí!
+        // this.view.elements.buttonCerrarSesion.addEventListener('click', this.cerrarSesion.bind(this));
+
+        // Por defecto, muestra el formulario de inicio de sesión al cargar la página
+        this.view.mostrarFormInicioSesion();
     }
 
     mostrarFormRegistro() {
@@ -50,8 +52,11 @@ class Controller {
         try {
             const user = await this.model.inicioSesion(correo, contrasena);
             if (user) {
-                this.view.mostrarExitoLogin(`Inicio de sesión exitoso. Bienvenido ${user.usuario.split('@')[0]}`);
-                // El observador onAuthStateChanged se encargará de actualizar la UI
+                this.view.mostrarExitoLogin(`Inicio de sesión exitoso. Redirigiendo a la aplicación...`);
+                // Guarda el email del usuario en localStorage para usarlo en la nueva página
+                localStorage.setItem('userEmail', user.email);
+                // **REDIRECCIÓN CLAVE:** Carga la nueva página
+                window.location.href = 'web/index.html'; // Asegúrate de que esta ruta sea correcta
             }
         } catch (error) {
             let errorMessage = "Ocurrió un error al iniciar sesión.";
@@ -108,7 +113,8 @@ class Controller {
         try {
             const user = await this.model.registro(correo, contrasena1, { nombre, apellido, usuario });
             if (user) {
-                this.view.mostrarFormInicioSesion(); // Redirige al formulario de login tras registro exitoso
+                // Después de un registro exitoso, redirige al formulario de inicio de sesión
+                this.view.mostrarFormInicioSesion();
                 this.view.mostrarExitoLogin(`¡Registro exitoso! Ya puedes iniciar sesión con ${user.email}`);
                 this.view.limpiarCamposFormRegistro(); // Limpia los campos del formulario de registro
             }
@@ -135,16 +141,8 @@ class Controller {
         }
     }
 
-    async cerrarSesion() {
-        try {
-            await this.model.cerrarSesion();
-            this.view.mostrarExitoLogin("Sesión cerrada exitosamente.");
-            // onAuthStateChanged se encargará de actualizar la UI
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error.message);
-            this.view.mostrarErrorLogin("Error al cerrar sesión: " + error.message);
-        }
-    }
+    // ¡ELIMINADO: El método cerrarSesion y su lógica se moverán a web/index.html!
+    // async cerrarSesion() { ... }
 }
 
 export default Controller;
