@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="titleIndex">Bienvenido a Joyago Games</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.8.0/firebase-firestore-compat.js"></script>
+    </head>
+<body>
+    <header>
+        <div class="cnt-textBvd">
+            <h1 id="textHeader">Bienvenido a Joyago Games</h1>
+        </div>
+
+        <div class="cnt-redes">
+            <a href="https://www.instagram.com/joyagogames"><img id="iconIg" src="resources/ig.png" alt="Instagram"></a>
+        </div>
+    </header>
+    <article>
+
+        <div class="cnt-formSesion">
+            <h2>Inicia Sesión</h2>
+            <form>
+                <label for="impEmail">Correo Electrónico:</label>
+                <input type="email" name="imput-correo-is" id="impEmail" placeholder="Email">
+                <label for="impPass">Contraseña:</label>
+                <input type="password" name="imput-pass-is" id="impPass" placeholder="*******">
+                <button type="button" id="buttonInicioSesion">Iniciar Sesión</button>
+                <div id="cnt-InfoLogin">
+                </div>
+                <p>¿No tienes Cuenta?<br><a id="aRegister">Regístrate</a></p>
+            </form>
+        </div>
+
+        <div class="cnt-formRegistro" style="display: none;">
+            <h2>Crea tu Cuenta</h2>
+            <form>
+                <div class="form-dist">
+                    <div class="form-left">
+                        <label for="impNombre">Nombre:</label>
+                        <input type="text" name="imput-nombre-rg" id="impNombre" placeholder="Nombre">
+                        <label for="impApellido">Apellido:</label>
+                        <input type="text" name="imput-apellido-rg" id="impApellido" placeholder="Apellido">
+                        <label for="impUsuario">Nombre de Usuario:</label>
+                        <input type="text" name="imput-usuario-rg" id="impUsuario" placeholder="Usuario">
+                    </div>
+                    <div class="form-right">
+                        <label for="impEmailRg">Correo Electrónico:</label>
+                        <input type="email" name="imput-correo-rg" id="impEmailRg" placeholder="Email">
+                        <label for="impPass1">Contraseña:</label>
+                        <input type="password" name="imput-pass-rg" id="impPass1" placeholder="*******">
+                        <label for="impPass2">Repite tu Contraseña:</label>
+                        <input type="password" name="imput-pass-rg" id="impPass2" placeholder="*******">
+                    </div>
+                </div>
+                <button type="button" id="buttonRegistro">Registrarse</button>
+                <div id="cnt-InfoRegister">
+                </div>
+                <p>¿Ya tienes Cuenta?<br><a id="aLogin">Inicia Sesión</a></p>
+            </form>
+        </div>
+
+        </article>
+    <footer>
+        <p>© 2025 Joyago Games. Todos los derechos reservados.</p>
+    </footer>
+
+    <script type="module">
+        import Controller from './js/controller.js';
+        import Model from './js/model.js';
+        import View from './js/view.js';
+
+        const model = new Model();
+        const view = new View();
+        const controller = new Controller(model, view);
+    </script>
+</body>
+</html>
