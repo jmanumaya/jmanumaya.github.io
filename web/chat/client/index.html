@@ -3,28 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>jomaChat</title>
+    <title>JomaChat</title>
 
-    <script type="module">
+     <script type="module">
         import { io } from "https://cdn.socket.io/4.5.4/socket.io.esm.min.js"; // Importando Socket.IO desde CDN
 
-        const socket = io(); // Creo el socket con io entre parentesis iria donde se encuentra el servidor, por defecto busca en el mismo servidor si tiene una conexion disponible
+        const getUsername = async () => {
+            // CAMBIO CLAVE: Usamos sessionStorage en lugar de localStorage
+            let username = sessionStorage.getItem('username'); 
+            
+            // Si ya hay un username en sessionStorage para esta PESTAÑA, lo usamos.
+            if (username) {
+                console.log('Username found in sessionStorage for this tab:', username);
+                return username; // Retornamos el nombre de usuario encontrado
+            }
+
+            // Si no hay un username en sessionStorage para esta PESTAÑA, procedemos a obtener uno nuevo
+            try {
+                const res = await fetch('/get-random-username'); 
+                if (!res.ok) {
+                    const errorDetails = await res.json();
+                    throw new Error(`Error HTTP de tu servidor: ${res.status} - ${errorDetails.error || 'Desconocido'}`);
+                }
+                const data = await res.json();
+                
+                const randomUsername = data.username; 
+                
+                // CAMBIO CLAVE: Guardamos el nuevo nombre de usuario en sessionStorage
+                sessionStorage.setItem('username', randomUsername); 
+                return randomUsername;
+            } catch (error) {
+                console.error('Error al obtener nombre de usuario (vía tu servidor):', error);
+                const fallbackUsername = 'Invitado_' + Math.floor(Math.random() * 10000);
+                // CAMBIO CLAVE: Guardamos el nombre de usuario de respaldo en sessionStorage
+                sessionStorage.setItem('username', fallbackUsername); 
+                return fallbackUsername;
+            }
+        };
+
+        const socket = io({
+            auth:{
+                username: await getUsername(), // Obtengo el nombre de usuario de la API y lo guardo en el socket
+                serverOffSet: 0
+            }
+        }); // Creo el socket con io
     
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
-        socket.on('chat message', (msg) => { // Escucho el evento chat message y muestro el mensaje en la lista
+
+        socket.on('chat message', (msg, serverOffSet, username) => { // Escucho el evento chat message y muestro el mensaje en la lista
             const item = document.createElement('li');
-            item.textContent = msg;
+            item.textContent = `${username}: ${msg}`;
             messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight); // Desplazo la ventana hacia abajo
+            messages.scrollTop = messages.scrollHeight; // Desplaza el contenedor de mensajes hacia abajo
+            socket.auth.serverOffSet = serverOffSet; // Actualizo el serverOffSet del socket (cliente)
         });
     
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value) {
-                socket.emit('chat message', input.value); // Emito al servidor un chat message y el valor del input del formulario
+                const currentUsername = socket.auth.username; 
+                socket.emit('chat message', input.value, currentUsername); // Emito al servidor un chat message y el valor del input del formulario
                 input.value = '';
             }
         });
@@ -53,8 +94,12 @@
             list-style-type: none;
             margin: 0;
             padding: 0;
-            overflow-y: auto;
-            height: calc(100% - 60px);
+            /* overflow-y: auto;
+            height: calc(100% - 60px); */
+            overflow: scroll;
+            height: 100%;
+            scroll-behavior: smooth;
+            padding-bottom: 48px;
         }
 
         #messages li {
@@ -132,6 +177,5 @@
             <button type="submit">></button>
         </form>
     </section>
-
 </body>
 </html>
